@@ -1,0 +1,31 @@
+{
+  "name": "app-custom",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:ssr": "vite build --mode ssr:clean && vite build --mode ssr:client && vite build --mode ssr:server",
+    "build:clean": "vite build --mode ssr:clean",
+    "build:client": "vite build --mode ssr:client",
+    "build:server": "vite build --mode ssr:server",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.5",
+    "react-dom": "^18.3.1",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.28.0",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "express": "^4.21.1",
+    "vite": "^5.4.11",
+    "vite-plugin-chunk-split": "^0.5.0",
+    "vite-plugin-pages": "^0.32.3",
+    "vite-plugin-ssr-build": "workspace:*"
+  }
+}
