@@ -2,6 +2,21 @@
 
 This project provides a Vite plugin to support server-side rendering (SSR) for React applications. It allows for efficient SSR bundling and client-side rendering (CSR) for modern web apps.
 
+## Framework-Agnostic
+
+While the plugin is designed to be framework-agnostic, it comes preconfigured for **React** and is optimized for use with **react-router-dom**. The configuration can be easily modified to suit other routing libraries or use cases, should you wish to switch frameworks or libraries.
+
+## React Query Support
+
+With built-in **React Query** support, you no longer need to manually define API endpoints in your server-side code. This feature simplifies server-side data fetching and eliminates the need for complex API configurations. You can rely on React Query to fetch and manage data on the client side, and let SSR handle the rendering seamlessly.
+
+## Key Features
+
+- SSR support with Vite
+- Configured for React and react-router-dom
+- Integrated support for React Query, simplifying data fetching on both the server and client
+- Easy configuration for other use cases or frameworks
+
 ## Overview
 
 - **SSR Support**: Integrates SSR into Vite for React applications, enabling server-side rendering and client-side hydration.
