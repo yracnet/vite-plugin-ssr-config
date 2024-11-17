@@ -29,7 +29,7 @@ export default defineConfig({
     dts({
       outDir: "dist/ts",
       insertTypesEntry: true,
-      include: ["plugin"],
+      include: [],
     }),
   ],
 });

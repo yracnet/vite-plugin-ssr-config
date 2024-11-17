@@ -21,4 +21,6 @@ export const ssrPlugin = (userConfig: SSRUserConfig = {}): PluginOption => {
   ];
 };
 
+export const ssr = ssrPlugin;
+
 export default ssrPlugin;
