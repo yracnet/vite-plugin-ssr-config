@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
-import { BuildOptions, UserConfig } from "vite";
+import { BuildOptions } from "vite";
 import { SSRConfig } from "../model.js";
 
 const onWarnServer = (warning: any, handler: any) => {
@@ -13,10 +13,7 @@ const onWarnServer = (warning: any, handler: any) => {
   handler(warning);
 };
 
-export const createBuildMode = (
-  ssrConfig: SSRConfig,
-  viteConfig: UserConfig
-): BuildOptions => {
+export const createBuildMode = (ssrConfig: SSRConfig): BuildOptions => {
   const {
     mode,
     root,

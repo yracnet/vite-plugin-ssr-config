@@ -22,14 +22,12 @@ export default defineConfig({
     lib: {
       entry: resolve("src/main.ts"),
       formats: ["es", "cjs"],
-      fileName: (format) => {
-        return `[name]-${format}.js`;
-      },
+      fileName: () => "[format]/[name].js",
     },
   },
   plugins: [
     dts({
-      outDir: "dist/types",
+      outDir: "dist/ts",
       insertTypesEntry: true,
       include: ["plugin"],
     }),

@@ -1,11 +1,7 @@
 import path from "path";
-import { UserConfig } from "vite";
 import { SSRConfig } from "../model.js";
 
-export const createResolveAlias = (
-  config: SSRConfig,
-  viteConfig: UserConfig
-) => {
+export const createResolveAlias = (config: SSRConfig) => {
   let {
     root,
     server,

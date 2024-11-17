@@ -1,18 +1,49 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    // Módulos y resolución de módulos para trabajar con ESNext y Bundlers
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "target": "ESNext",
-    "moduleResolution": "nodenext",
-    "strict": true,
+    // Generación de tipos
     "declaration": true,
     "declarationDir": "dist/types",
-    "emitDeclarationOnly": true,
-    "outDir": "dist",
+    // Asegurando que se generen solo los tipos y no el código JavaScript si solo necesitamos los tipos
+    "emitDeclarationOnly": false,
+    // Soporte para JavaScript nativo
+    "allowJs": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "isolatedModules": true
+    // Estrictas reglas para mejor calidad de código
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    // Optimización para bundlers
+    "isolatedModules": true,
+    // Otras optimizaciones y mejoras
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    // Otras configuraciones útiles
+    "jsx": "react-jsx",
+    "lib": [
+      "esnext",
+      "dom"
+    ], // Incluir bibliotecas modernas de JavaScript y DOM para compatibilidad
+    // Generación de código JavaScript
+    "noEmit": false,
+    "outDir": "dist",
+    "removeComments": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  // Incluir todos los archivos TypeScript y JavaScript dentro de 'src'
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/vite-env.d.ts"
+  ],
+  // Excluir directorios innecesarios
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

@@ -12,8 +12,8 @@ export const pluginBuild = (ssrConfig: SSRConfig): PluginOption => {
     config: (viteConfig) => {
       //@ts-ignore
       ssrConfig.mode = viteConfig.mode;
-      const alias = createResolveAlias(ssrConfig, viteConfig);
-      const build = createBuildMode(ssrConfig, viteConfig);
+      const alias = createResolveAlias(ssrConfig);
+      const build = createBuildMode(ssrConfig);
       const define = createDefineMode(ssrConfig, viteConfig);
       let baseConfig: UserConfig = {
         appType: "custom",
