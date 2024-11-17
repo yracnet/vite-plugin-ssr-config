@@ -46,12 +46,14 @@
     "prepack": "yarn build",
     "preview": "vite preview"
   },
+  "dependencies": {
+    "fs-extra": "^11.2.0"
+  },
   "peerDependencies": {
     "vite": "^2 || ^3 || ^4 || ^5"
   },
   "devDependencies": {
     "@types/fs-extra": "^11",
-    "fs-extra": "^11.2.0",
     "typescript": "~5.6.2",
     "vite": "^5.4.10"
   }
