@@ -1,9 +1,30 @@
+import fs from "fs-extra";
+import path from "path";
+import { fileURLToPath } from "url";
 import { SSRConfig, SSRUserConfig } from "./model.js";
 
 export const ENTRY_NONE = "_____.html";
 
 export const finalUrl = (base: string, path: string) => {
   return `${base.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+};
+
+export const getPluginDirectory = () => {
+  if (typeof __dirname === "undefined") {
+    const filename = fileURLToPath(import.meta.url);
+    return path.dirname(filename);
+  } else {
+    return __dirname;
+  }
+};
+
+export const copySSRDirectory = (origin: string, target: string) => {
+  let ssrOrigin = path.resolve(origin, "../ssr");
+  let ssrTarget = path.resolve(target, ".ssr");
+  if (fs.existsSync(ssrTarget)) {
+    fs.rmSync(ssrTarget, { recursive: true, force: true });
+  }
+  fs.copySync(ssrOrigin, ssrTarget, { overwrite: true });
 };
 
 export const assertSSRConfig = (ssrConfig: SSRUserConfig = {}): SSRConfig => {

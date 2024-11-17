@@ -1,6 +1,6 @@
+import { resolve } from "path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
-import { resolve } from "path";
 
 //https://dev.to/receter/how-to-create-a-react-component-library-using-vites-library-mode-4lma
 export default defineConfig({
@@ -13,6 +13,9 @@ export default defineConfig({
         "react/jsx-runtime",
         "vite",
         "path",
+        "fs-extra",
+        "fs",
+        "url",
         "@ssr",
       ],
     },
