@@ -20,6 +20,9 @@ export const getPluginDirectory = () => {
 
 export const copySSRDirectory = (origin: string, target: string) => {
   let ssrOrigin = path.resolve(origin, "../ssr");
+  if (!fs.existsSync(ssrOrigin)) {
+    ssrOrigin = path.resolve(origin, "../../ssr");
+  }
   let ssrTarget = path.resolve(target, ".ssr");
   if (fs.existsSync(ssrTarget)) {
     fs.rmSync(ssrTarget, { recursive: true, force: true });
