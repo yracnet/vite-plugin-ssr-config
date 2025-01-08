@@ -1,4 +1,4 @@
-# vite-plugin-ssr-build
+# vite-plugin-ssr-kit
 
 This plugin enables server-side rendering (SSR) with Vite, providing essential configurations and customization options for building both the client and server bundles, along with the necessary React components for SSR.
 
@@ -7,12 +7,12 @@ This plugin enables server-side rendering (SSR) with Vite, providing essential c
 To add this plugin to your project, run the following commands:
 
 ```
-yarn add vite-plugin-ssr-build vite-plugin-pages react-router-dom -D
+yarn add vite-plugin-ssr-kit vite-plugin-pages react-router-dom -D
 ```
 
 This will install:
 
-- vite-plugin-ssr-build: The plugin for server-side rendering (SSR) with Vite.
+- vite-plugin-ssr-kit: The plugin for server-side rendering (SSR) with Vite.
 - vite-plugin-pages: Automatically generate route files for your pages.
 - react-router-dom: The routing library for React, used to manage navigation within the app.
 
@@ -28,7 +28,7 @@ To use the plugin, you need to integrate it with Vite’s `defineConfig` method 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import pages from "vite-plugin-pages";
-import ssr from "vite-plugin-ssr-build";
+import ssr from "vite-plugin-ssr-kit";
 
 export default defineConfig({
   plugins: [react(), pages(), ssr()],
@@ -43,7 +43,7 @@ The following default values are provided for each configurable attribute in the
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import pages from "vite-plugin-pages";
-import ssr from "vite-plugin-ssr-build";
+import ssr from "vite-plugin-ssr-kit";
 
 export default defineConfig({
   plugins: [

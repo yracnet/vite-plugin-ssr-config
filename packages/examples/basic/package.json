@@ -24,6 +24,6 @@
     "vite": "^5.4.11",
     "vite-plugin-full-reload": "^1.2.0",
     "vite-plugin-pages": "^0.32.3",
-    "vite-plugin-ssr-build": "file:./../plugin/package.tgz"
+    "vite-plugin-ssr-kit": "*"
   }
 }

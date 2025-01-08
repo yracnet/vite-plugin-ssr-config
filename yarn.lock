@@ -1235,7 +1235,7 @@ __metadata:
     vite: "npm:^5.4.11"
     vite-plugin-full-reload: "npm:^1.2.0"
     vite-plugin-pages: "npm:^0.32.3"
-    vite-plugin-ssr-build: "file:./../plugin/package.tgz"
+    vite-plugin-ssr-kit: "file:./../plugin/package.tgz"
   languageName: unknown
   linkType: soft
 
@@ -1253,7 +1253,7 @@ __metadata:
     vite: "npm:^5.4.11"
     vite-plugin-chunk-split: "npm:^0.5.0"
     vite-plugin-pages: "npm:^0.32.3"
-    vite-plugin-ssr-build: "workspace:*"
+    vite-plugin-ssr-kit: "workspace:*"
   languageName: unknown
   linkType: soft
 
@@ -4061,16 +4061,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-ssr-build@file:./../plugin/package.tgz::locator=app-basic%40workspace%3Apackages%2Fapp-basic":
+"vite-plugin-ssr-kit@file:./../plugin/package.tgz::locator=app-basic%40workspace%3Apackages%2Fapp-basic":
   version: 0.1.0
-  resolution: "vite-plugin-ssr-build@file:./../plugin/package.tgz#./../plugin/package.tgz::hash=918c0c&locator=app-basic%40workspace%3Apackages%2Fapp-basic"
+  resolution: "vite-plugin-ssr-kit@file:./../plugin/package.tgz#./../plugin/package.tgz::hash=918c0c&locator=app-basic%40workspace%3Apackages%2Fapp-basic"
   checksum: 10c0/ce4d318c79a09f3d2fadae81fc66d423435528ba7472740583aa4c5f24bcaf5935cf2b21cc3d7ba17c472b297db7b0b8d845e57509e2959555be0b32ac6dc84c
   languageName: node
   linkType: hard
 
-"vite-plugin-ssr-build@workspace:*, vite-plugin-ssr-build@workspace:packages/plugin":
+"vite-plugin-ssr-kit@workspace:*, vite-plugin-ssr-kit@workspace:packages/plugin":
   version: 0.0.0-use.local
-  resolution: "vite-plugin-ssr-build@workspace:packages/plugin"
+  resolution: "vite-plugin-ssr-kit@workspace:packages/plugin"
   dependencies:
     "@types/fs-extra": "npm:^11"
     fs-extra: "npm:^11.2.0"

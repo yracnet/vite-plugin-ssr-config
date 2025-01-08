@@ -1,4 +1,4 @@
-# vite-plugin-ssr-build
+# vite-plugin-ssr-kit
 
 This project provides a Vite plugin to support server-side rendering (SSR) for React applications. It allows for efficient SSR bundling and client-side rendering (CSR) for modern web apps.
 
@@ -35,13 +35,13 @@ For detailed usage, refer to each package's README.
 
 ## Installation
 
-To install and use `vite-plugin-ssr-build`:
+To install and use `vite-plugin-ssr-kit`:
 
 1. Clone the repository.
 2. Run:
 
 ```
-yarn add vite-plugin-ssr-build -D
+yarn add vite-plugin-ssr-kit -D
 ```
 
 3. Add the plugin to your Vite config:
@@ -50,7 +50,7 @@ yarn add vite-plugin-ssr-build -D
 import { defineConfig } from 'vite';
 import react from "@vitejs/plugin-react";
 import pages from "vite-plugin-pages";
-import ssr from 'vite-plugin-ssr-build';
+import ssr from 'vite-plugin-ssr-kit';
 
 export default defineConfig({
   plugins: [

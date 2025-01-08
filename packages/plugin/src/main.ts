@@ -9,7 +9,7 @@ import {
   getPluginDirectory,
 } from "./utils.js";
 
-export const ssrPlugin = (userConfig: SSRUserConfig = {}): PluginOption => {
+export const ssrKit = (userConfig: SSRUserConfig = {}): PluginOption => {
   const ssrConfig = assertSSRConfig(userConfig);
   const dirname = getPluginDirectory();
   copySSRDirectory(dirname, ssrConfig.root);
@@ -21,6 +21,6 @@ export const ssrPlugin = (userConfig: SSRUserConfig = {}): PluginOption => {
   ];
 };
 
-export const ssr = ssrPlugin;
+export const ssr = ssrKit;
 
-export default ssrPlugin;
+export default ssrKit;
