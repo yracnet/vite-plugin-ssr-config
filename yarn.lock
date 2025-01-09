@@ -1341,6 +1341,18 @@ dom-helpers@^5.0.1, dom-helpers@^5.2.0, dom-helpers@^5.2.1:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
 
+dotenv-local@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/dotenv-local/-/dotenv-local-1.0.2.tgz#0460be93f4c4f981137867c9df3f3e96bd2d87cf"
+  integrity sha512-5bbVEx9ceVZfhMy0oAV/LeD/H3NpSuOOaSgi2qxwXvTVlqqHIuR11fw+5RaMJzgFDXObIb6xHN9OXJI5eK8gYQ==
+  dependencies:
+    dotenv "^16.3.1"
+
+dotenv@^16.3.1:
+  version "16.4.7"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.4.7.tgz#0e20c5b82950140aa99be360a8a5f52335f53c26"
+  integrity sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==
+
 dunder-proto@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz#d7ae667e1dc83482f8b70fd0f6eefc50da30f58a"

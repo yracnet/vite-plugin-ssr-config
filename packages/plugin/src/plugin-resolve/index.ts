@@ -17,7 +17,7 @@ export const pluginResolve = (ssrConfig: SSRConfig): PluginOption => {
     liveReload,
     viteScripts,
   } = ssrConfig;
-  const assertFile = (name: string) => {
+  const absoluteFile = (name: string) => {
     return path.join(root, name);
   };
   return {
@@ -27,17 +27,17 @@ export const pluginResolve = (ssrConfig: SSRConfig): PluginOption => {
       return {
         resolve: {
           alias: {
-            "@ssr/server.js": assertFile(server),
-            "@ssr/handler.js": assertFile(handler),
-            "@ssr/root.jsx": assertFile(rootDocument),
-            "@ssr/entryClient.jsx": assertFile(entryClient),
-            "@ssr/entryRender.jsx": assertFile(entryRender),
-            "@ssr/pageServer.jsx": assertFile(pageServer),
-            "@ssr/pageBrowser.jsx": assertFile(pageBrowser),
-            "@ssr/rootRoutes.jsx": assertFile(rootRoutes),
-            "@ssr/errorBoundary.jsx": assertFile(errorBoundary),
-            "@ssr/liveReload.jsx": assertFile(liveReload),
-            "@ssr/viteScripts.jsx": assertFile(viteScripts),
+            "@ssr/server.js": absoluteFile(server),
+            "@ssr/handler.js": absoluteFile(handler),
+            "@ssr/root.jsx": absoluteFile(rootDocument),
+            "@ssr/entryClient.jsx": absoluteFile(entryClient),
+            "@ssr/entryRender.jsx": absoluteFile(entryRender),
+            "@ssr/pageServer.jsx": absoluteFile(pageServer),
+            "@ssr/pageBrowser.jsx": absoluteFile(pageBrowser),
+            "@ssr/rootRoutes.jsx": absoluteFile(rootRoutes),
+            "@ssr/errorBoundary.jsx": absoluteFile(errorBoundary),
+            "@ssr/liveReload.jsx": absoluteFile(liveReload),
+            "@ssr/viteScripts.jsx": absoluteFile(viteScripts),
           },
         },
       };

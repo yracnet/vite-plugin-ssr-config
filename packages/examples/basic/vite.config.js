@@ -15,14 +15,6 @@ export default defineConfig({
     }),
     ssrKit({
       rootDocument: "src/root.jsx",
-      dependencies: [
-        "express",
-        "react",
-        "react-dom",
-        "react-query",
-        "react-bootstrap",
-        "react-router-dom",
-      ],
     }),
   ],
 });

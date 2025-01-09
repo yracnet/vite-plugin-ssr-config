@@ -1,13 +1,9 @@
 import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
-import { SSRConfig, SSRUserConfig } from "./model.js";
-
-export const ENTRY_NONE = "_____.html";
 
 export const finalUrl = (base: string, name: string) => {
   return path.join(base, name).replaceAll("\\", "/");
-  //return `${base.replace(/\/+$/, "")}/${name.replace(/^\/+/, "")}`;
 };
 
 export const getPluginDirectory = () => {
@@ -64,60 +60,4 @@ export const copyFilesDirectory = (
       fs.copySync(sourceFilePath, targetFilePath, { overwrite: true });
     }
   });
-};
-
-export const assertSSRConfig = (ssrConfig: SSRUserConfig = {}): SSRConfig => {
-  let {
-    root = process.cwd(),
-    disableBuild = false,
-    //Main Entry
-    entryClient = ".ssr/entryClient.jsx",
-    entryRender = ".ssr/entryRender.jsx",
-    rootDocument = ".ssr/root.jsx",
-    //Server
-    server = ".ssr/server.js",
-    handler = ".ssr/handler.js",
-    //SSR
-    pageServer = ".ssr/pageServer.jsx",
-    pageBrowser = ".ssr/pageBrowser.jsx",
-    rootRoutes = ".ssr/rootRoutes.jsx",
-    errorBoundary = ".ssr/errorBoundary.jsx",
-    //Scripts
-    liveReload = ".ssr/liveReload.jsx",
-    viteScripts = ".ssr/viteScripts.jsx",
-    //Out directories
-    serverOutDir = "dist/",
-    serverMinify = false,
-    serverBuild = (config) => config,
-    clientOutDir = "dist/client",
-    clientMinify = true,
-    clientBuild = (config) => config,
-  } = ssrConfig;
-  return {
-    root,
-    disableBuild,
-
-    entryClient,
-    entryRender,
-    rootDocument,
-
-    server,
-    handler,
-
-    pageServer,
-    pageBrowser,
-    rootRoutes,
-    errorBoundary,
-
-    liveReload,
-    viteScripts,
-
-    serverOutDir,
-    serverMinify,
-    serverBuild,
-
-    clientOutDir,
-    clientMinify,
-    clientBuild,
-  };
 };

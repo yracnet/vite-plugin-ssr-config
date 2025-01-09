@@ -40,9 +40,6 @@ const pluginBuildSkip = (): PluginOption => {
 };
 
 const pluginBuildSSR = (ssrConfig: SSRConfig): PluginOption => {
-  if (ssrConfig.disableBuild) {
-    return null;
-  }
   //@ts-ignore
   let viteConfig: ResolvedConfig = {};
   return {

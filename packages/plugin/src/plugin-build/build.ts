@@ -26,15 +26,16 @@ export const doBuildServer = async (
     liveReload,
     viteScripts,
   } = ssrConfig;
-  const serverFile = path.resolve(root, server);
-
   const { base = "/" } = viteConfig;
-  let entryClientURL = finalUrl(base, entryClient);
+
+  const ssrServerFile = path.resolve(root, server);
+  const ssrPublicDir = path.relative(serverOutDir, clientOutDir);
+
   const manifestFile = path.resolve(`${clientOutDir}/manifest.json`);
   const manifestContent = fs.readFileSync(manifestFile, "utf-8");
   const manifest = JSON.parse(manifestContent);
-  entryClientURL = finalUrl(base, manifest[entryClient].file);
-  const ssrPublicDir = path.relative(serverOutDir, clientOutDir);
+  const manifestOut = manifest[entryClient].file;
+  const ssrEntryClientURL = finalUrl(base, manifestOut);
 
   const ssrFiles = [
     handler,
@@ -50,19 +51,20 @@ export const doBuildServer = async (
   ];
   const baseConfig: InlineConfig = {
     appType: "custom",
+    base,
     root,
     publicDir: "private",
     define: {
       "process.env.SSR_BASENAME": JSON.stringify(base),
       "process.env.SSR_PUBLIC_DIR": JSON.stringify(ssrPublicDir),
-      "process.env.SSR_ENTRY_CLIENT": JSON.stringify(entryClientURL),
+      "process.env.SSR_ENTRY_CLIENT": JSON.stringify(ssrEntryClientURL),
     },
     ssr: {
       noExternal: [],
     },
     build: {
       outDir: serverOutDir,
-      ssr: serverFile,
+      ssr: ssrServerFile,
       write: true,
       minify: serverMinify,
       target: "esnext",
@@ -102,6 +104,7 @@ export const doBuildServer = async (
   const finalConfig = mergeConfig(baseConfig, customConfig);
   await build(finalConfig);
 };
+
 export const doBuildClient = async (
   ssrConfig: SSRConfig,
   viteConfig: ResolvedConfig
@@ -118,6 +121,7 @@ export const doBuildClient = async (
   const baseConfig: InlineConfig = {
     root,
     appType: "custom",
+    base,
     define: {
       "process.env.SSR_BASENAME": JSON.stringify(base),
     },

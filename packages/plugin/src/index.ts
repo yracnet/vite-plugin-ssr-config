@@ -1,17 +1,12 @@
 import path from "path";
 import { PluginOption } from "vite";
-import { SSRUserConfig } from "./model.js";
+import { assertSSRConfig, SSROpts } from "./model.js";
 import { pluginBuild } from "./plugin-build/index.js";
 import { pluginResolve } from "./plugin-resolve/index.js";
 import { pluginServe } from "./plugin-serve/index.js";
-import {
-  assertSSRConfig,
-  cleanDirectory,
-  copyFilesDirectory,
-  findDirPlugin,
-} from "./utils.js";
+import { cleanDirectory, copyFilesDirectory, findDirPlugin } from "./utils.js";
 
-export const ssrKit = (userConfig: SSRUserConfig = {}): PluginOption => {
+export const ssrKit = (userConfig: SSROpts = {}): PluginOption => {
   const ssrConfig = assertSSRConfig(userConfig);
   const ssrOrigin = findDirPlugin("ssr");
   const ssrTarget = path.join(ssrConfig.root, ".ssr");

@@ -5,12 +5,13 @@ import { SSRConfig } from "../model.js";
 import { finalUrl } from "../utils.js";
 
 export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
+  const { entryClient, root } = ssrConfig;
   return {
     name: "vite-plugin-ssr-kit:serve",
     enforce: "post",
     apply: "serve",
     config: ({ base = "/" }) => {
-      const ssrClientEntry = finalUrl(base, ssrConfig.entryClient);
+      const ssrClientEntry = finalUrl(base, entryClient);
       return {
         appType: "custom",
         define: {
@@ -23,11 +24,7 @@ export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
       return async () => {
         // HTML Serve
         devServer.middlewares.use(async (req: any, res, next) => {
-          const indexHtmlPath = path.join(
-            ssrConfig.root,
-            req.url,
-            "index.html"
-          );
+          const indexHtmlPath = path.join(root, req.url, "index.html");
           if (fs.existsSync(indexHtmlPath)) {
             return devServer
               .transformIndexHtml(
