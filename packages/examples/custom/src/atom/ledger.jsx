@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import viteLogo from "../../public/vite.svg";
 import reactLogo from "../assets/react.svg";
-import viteLogo from "/vite.svg";
 
 const Section = styled.div`
   width: 100%;
@@ -11,60 +11,60 @@ const Section = styled.div`
   padding: 10px 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  .ledger-content {
+  > .ledger-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
     max-width: 1200px;
     margin: 0 auto;
-  }
 
-  .logo {
-    height: 40px;
-    margin: 0 10px;
-    transition: transform 0.2s;
-  }
-
-  @keyframes logo-spin {
-    from {
-      transform: rotate(0deg);
+    .logo {
+      height: 40px;
+      margin: 0 10px;
+      transition: transform 0.2s;
     }
-    to {
-      transform: rotate(360deg);
+
+    @keyframes logo-spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
     }
-  }
 
-  @media (prefers-reduced-motion: no-preference) {
-    a:nth-of-type(2) .logo {
-      animation: logo-spin infinite 20s linear;
+    @media (prefers-reduced-motion: no-preference) {
+      a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+      }
     }
-  }
 
-  .logo:hover {
-    transform: scale(1.1);
-  }
+    .logo:hover {
+      transform: scale(1.1);
+    }
 
-  .logo.vite {
-    filter: drop-shadow(0 0 5px #fff);
-  }
+    .logo.vite {
+      filter: drop-shadow(0 0 5px #fff);
+    }
 
-  .logo.react {
-    filter: drop-shadow(0 0 5px #61dafb);
-  }
+    .logo.react {
+      filter: drop-shadow(0 0 5px #61dafb);
+    }
 
-  .ledger-text {
-    text-align: center;
-  }
+    .ledger-text {
+      text-align: center;
+    }
 
-  .ledger-text h1 {
-    font-size: 1.5rem;
-    margin: 0;
-  }
+    .ledger-text h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
 
-  .ledger-text h4 {
-    font-size: 1rem;
-    margin: 0;
-    color: #e2e8f0;
+    .ledger-text h4 {
+      font-size: 1rem;
+      margin: 0;
+      color: #e2e8f0;
+    }
   }
 `;
 

@@ -18,30 +18,65 @@ export const getPluginDirectory = () => {
   }
 };
 
-export const copySSRDirectory = (origin: string, target: string) => {
-  let ssrOrigin = path.resolve(origin, "../ssr");
-  if (!fs.existsSync(ssrOrigin)) {
-    ssrOrigin = path.resolve(origin, "../../ssr");
+export const findDirPlugin = (dirname: string, max = 5) => {
+  const basedir = getPluginDirectory();
+  let relative = "/";
+  let dirPath = "";
+  for (var i = 0; i < max; i++) {
+    dirPath = path.join(basedir, relative, dirname);
+    if (fs.existsSync(dirPath)) {
+      return dirPath;
+    }
+    relative += "../";
   }
-  let ssrTarget = path.resolve(target, ".ssr");
-  if (fs.existsSync(ssrTarget)) {
-    fs.rmSync(ssrTarget, { recursive: true, force: true });
+  throw Error(`Not found: ${dirPath}`);
+};
+
+export const cleanDirectory = (target: string) => {
+  if (fs.existsSync(target)) {
+    fs.rmSync(target, { recursive: true, force: true });
   }
-  fs.copySync(ssrOrigin, ssrTarget, { overwrite: true });
+  fs.mkdirSync(target, { recursive: true });
+};
+
+export const copyFilesDirectory = (
+  origin: string,
+  target: string,
+  {
+    files = [],
+    oldId = "",
+    newId = "",
+  }: {
+    files?: string[];
+    oldId?: string;
+    newId?: string;
+  }
+) => {
+  files.forEach((file) => {
+    const sourceFilePath = path.join(origin, file);
+    const targetFilePath = path.join(target, file);
+    if (oldId !== newId) {
+      let fileContent = fs.readFileSync(sourceFilePath, "utf-8");
+      fileContent = fileContent.replace(new RegExp(oldId, "g"), newId);
+      fs.writeFileSync(targetFilePath, fileContent, "utf-8");
+    } else {
+      fs.copySync(sourceFilePath, targetFilePath, { overwrite: true });
+    }
+  });
 };
 
 export const assertSSRConfig = (ssrConfig: SSRUserConfig = {}): SSRConfig => {
   let {
-    mode = "ssr:clean",
     root = process.cwd(),
-    //React
+    disableBuild = false,
+    //Main Entry
     entryClient = ".ssr/entryClient.jsx",
-    entryServer = ".ssr/entryServer.jsx",
+    entryRender = ".ssr/entryRender.jsx",
     rootDocument = ".ssr/root.jsx",
     //Server
     server = ".ssr/server.js",
     handler = ".ssr/handler.js",
-    //React SSR
+    //SSR
     pageServer = ".ssr/pageServer.jsx",
     pageBrowser = ".ssr/pageBrowser.jsx",
     rootRoutes = ".ssr/rootRoutes.jsx",
@@ -50,21 +85,21 @@ export const assertSSRConfig = (ssrConfig: SSRUserConfig = {}): SSRConfig => {
     liveReload = ".ssr/liveReload.jsx",
     viteScripts = ".ssr/viteScripts.jsx",
     //Out directories
-    outDir = "dist",
-    clientDir = "client",
-    serverDir = "bin",
-    assetDir = "assets",
-    chunkDir = "chunks",
-    clientConfig = (c) => c,
-    serverConfig = (c) => c,
+    serverOutDir = "dist/",
+    serverMinify = false,
+    serverBuild = (config) => config,
+    clientOutDir = "dist/client",
+    clientMinify = true,
+    clientBuild = (config) => config,
   } = ssrConfig;
   return {
-    mode,
     root,
+    disableBuild,
 
     entryClient,
-    entryServer,
+    entryRender,
     rootDocument,
+
     server,
     handler,
 
@@ -76,13 +111,12 @@ export const assertSSRConfig = (ssrConfig: SSRUserConfig = {}): SSRConfig => {
     liveReload,
     viteScripts,
 
-    outDir,
-    clientDir,
-    serverDir,
-    assetDir,
-    chunkDir,
+    serverOutDir,
+    serverMinify,
+    serverBuild,
 
-    clientConfig,
-    serverConfig,
+    clientOutDir,
+    clientMinify,
+    clientBuild,
   };
 };

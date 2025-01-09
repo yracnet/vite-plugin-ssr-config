@@ -1,4 +1,4 @@
-import { render } from "@ssr/entryServer.jsx";
+import { render } from "@ssr/entryRender.jsx";
 
 export const handler = async (req, res, next) => {
   //Force Fix

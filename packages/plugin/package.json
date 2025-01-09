@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-ssr-kit",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "A powerful Vite plugin designed to enable Server-Side Rendering (SSR) for React applications. It provides a comprehensive solution for bundling both SSR and CSR, with built-in support for React Router and React Query for efficient API handling and page rendering.",
   "keywords": [
@@ -21,14 +21,11 @@
   ],
   "author": "Willyams Yujra",
   "type": "module",
-  "main": "./dist/cjs/main.js",
-  "module": "./dist/es/main.js",
-  "types": "./dist/ts/main.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/cjs/main.js",
-      "import": "./dist/es/main.js",
-      "types": "./dist/ts/main.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
@@ -42,20 +39,23 @@
   "homepage": "https://github.com/yracnet/vite-plugin-ssr-kit",
   "bugs": "https://github.com/yracnet/vite-plugin-ssr-kit/issues",
   "scripts": {
-    "build": "tsc -b && vite build",
+    "build": "tsup",
     "prepublish": "yarn build",
-    "prepack": "yarn build",
-    "preview": "vite preview"
+    "prepack": "yarn build"
   },
   "dependencies": {
     "fs-extra": "^11.2.0"
   },
   "peerDependencies": {
-    "vite": "^2 || ^3 || ^4 || ^5"
+    "vite": "^2 || ^3 || ^4 || ^5 || ^6"
   },
   "devDependencies": {
-    "@types/fs-extra": "^11",
-    "typescript": "~5.6.2",
-    "vite": "^5.4.10"
+    "@types/express": "^5.0.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.10.2",
+    "express": "^4.21.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vite": "^4.0.0"
   }
 }

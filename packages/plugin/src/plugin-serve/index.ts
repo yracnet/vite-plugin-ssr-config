@@ -5,9 +5,17 @@ import { SSRConfig } from "../model.js";
 
 export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
   return {
-    name: "ssr-plugin-serve",
+    name: "vite-plugin-ssr-kit:serve",
     enforce: "post",
     apply: "serve",
+    config: () => {
+      return {
+        appType: "custom",
+        define: {
+          "process.env.SSR_ENTRY_CLIENT": JSON.stringify(ssrConfig.entryClient),
+        },
+      };
+    },
     configureServer: async (devServer) => {
       return async () => {
         // HTML Serve

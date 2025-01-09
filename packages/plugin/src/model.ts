@@ -1,31 +1,31 @@
 import { UserConfig } from "vite";
 
 export type SSRConfig = {
-  mode: "ssr:clean" | "ssr:server" | "ssr:client";
   root: string;
 
   entryClient: string;
-  entryServer: string;
-  rootDocument: string;
+  entryRender: string;
+
   server: string;
   handler: string;
 
+  rootDocument: string;
   pageServer: string;
   pageBrowser: string;
   rootRoutes: string;
   errorBoundary: string;
-
   liveReload: string;
   viteScripts: string;
 
-  outDir: string;
-  clientDir: string;
-  serverDir: string;
-  assetDir: string;
-  chunkDir: string;
+  clientOutDir: string;
+  clientMinify: boolean | "terser" | "esbuild";
+  clientBuild: (config: UserConfig) => UserConfig;
 
-  clientConfig: (config: UserConfig) => UserConfig;
-  serverConfig: (config: UserConfig) => UserConfig;
+  serverOutDir: string;
+  serverMinify: boolean | "terser" | "esbuild";
+  serverBuild: (config: UserConfig) => UserConfig;
+
+  disableBuild: boolean;
 };
 
 export type SSRUserConfig = Partial<SSRConfig>;

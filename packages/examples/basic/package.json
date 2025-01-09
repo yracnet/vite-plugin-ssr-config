@@ -6,10 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:ssr": "vite build --mode ssr:clean && vite build --mode ssr:client && vite build --mode ssr:server",
-    "build:clean": "vite build --mode ssr:clean",
-    "build:client": "vite build --mode ssr:client",
-    "build:server": "vite build --mode ssr:server",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -22,7 +18,10 @@
   "devDependencies": {
     "express": "^4.21.1",
     "vite": "^5.4.11",
-    "vite-plugin-full-reload": "^1.2.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "globals": "^15.14.0",
     "vite-plugin-pages": "^0.32.3",
     "vite-plugin-ssr-kit": "*"
   }

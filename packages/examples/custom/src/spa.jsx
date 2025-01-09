@@ -2,6 +2,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import styled from "styled-components";
 import reactLogo from "./assets/react.svg";
+import { Counter } from "./atom/counter";
+import { Ledger } from "./atom/ledger";
 import viteLogo from "/vite.svg";
 
 const Section = styled.div`
@@ -25,5 +27,7 @@ createRoot(document.querySelector("#root")).render(
       <img src={viteLogo} className="logo" alt="Vite logo" />
       <img src={reactLogo} className="logo" alt="React logo" />
     </Section>
+    <Ledger />
+    <Counter />
   </StrictMode>
 );

@@ -54,7 +54,7 @@ export default defineConfig({
 
       // React-related files
       entryClient: ".ssr/entryClient.jsx", // Entry point for the client-side app.
-      entryServer: ".ssr/entryServer.jsx", // Entry point for the server-side app.
+      entryRender: ".ssr/entryRender.jsx", // Entry point for the server-side app.
       rootDocument: ".ssr/root.jsx", // Root document for React SSR.
 
       // Server-side files
@@ -88,11 +88,11 @@ export default defineConfig({
 
 ## Customization
 
-You can customize the default values by providing your own configuration for the plugin in your `vite.config.js` file. For example, to change the entry point for your server-side app, you would set the `entryServer` value:
+You can customize the default values by providing your own configuration for the plugin in your `vite.config.js` file. For example, to change the entry point for your server-side app, you would set the `entryRender` value:
 
 ```js
 ssr({
-  entryServer: "src/server/entryServer.js",
+  entryRender: "src/server/entryRender.js",
 });
 ```
 

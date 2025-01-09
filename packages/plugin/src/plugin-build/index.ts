@@ -1,37 +1,76 @@
-import { mergeConfig, PluginOption, UserConfig } from "vite";
-import { SSRConfig } from "../model.js";
-import { createBuildMode } from "./buildMode.js";
-import { createDefineMode } from "./defineMode.js";
-import { createResolveAlias } from "./resolveAlias.js";
+import { PluginOption, ResolvedConfig } from "vite";
+import { SSRConfig } from "../model";
+import { cleanDirectory } from "../utils";
+import { doBuildClient, doBuildServer } from "./build";
 
-export const pluginBuild = (ssrConfig: SSRConfig): PluginOption => {
-  const { serverConfig, clientConfig } = ssrConfig;
+const pluginBuildSkip = (): PluginOption => {
+  const ENTRY_NONE = "____.html";
   return {
-    name: "ssr-plugin-build",
+    name: "vite-plugin-ssr-kit:skip",
     enforce: "pre",
-    config: (viteConfig) => {
-      //@ts-ignore
-      ssrConfig.mode = viteConfig.mode;
-      const alias = createResolveAlias(ssrConfig);
-      const build = createBuildMode(ssrConfig);
-      const define = createDefineMode(ssrConfig, viteConfig);
-      let baseConfig: UserConfig = {
-        appType: "custom",
-        resolve: {
-          alias,
+    apply: "build",
+    config: () => {
+      if (process.env.IS_SSR_KIT_BUILD) return {};
+      return {
+        build: {
+          emptyOutDir: true,
+          copyPublicDir: false,
+          write: false,
+          rollupOptions: {
+            input: {
+              main: ENTRY_NONE,
+            },
+          },
         },
-        define,
-        build,
       };
-      if (ssrConfig.mode === "ssr:client") {
-        const nextConfig = clientConfig(baseConfig);
-        baseConfig = mergeConfig(baseConfig, nextConfig);
+    },
+    resolveId: (id) => {
+      if (id === ENTRY_NONE) {
+        return id;
       }
-      if (ssrConfig.mode === "ssr:server") {
-        const nextConfig = serverConfig(baseConfig);
-        baseConfig = mergeConfig(baseConfig, nextConfig);
+      return null;
+    },
+    load: (id) => {
+      if (id === ENTRY_NONE) {
+        return "";
       }
-      return baseConfig;
+      return null;
     },
   };
+};
+
+const pluginBuildSSR = (ssrConfig: SSRConfig): PluginOption => {
+  if (ssrConfig.disableBuild) {
+    return null;
+  }
+  //@ts-ignore
+  let viteConfig: ResolvedConfig = {};
+  return {
+    name: "vite-plugin-ssr-kit:build",
+    enforce: "pre",
+    apply: "build",
+    configResolved: (config) => {
+      viteConfig = config;
+    },
+    buildStart: async () => {
+      if (process.env.IS_SSR_KIT_BUILD) return;
+      process.env.IS_SSR_KIT_BUILD = "true";
+      cleanDirectory(ssrConfig.clientOutDir);
+      cleanDirectory(ssrConfig.serverOutDir);
+      viteConfig.logger.info("");
+      viteConfig.logger.info("\x1b[1m\x1b[31mCLIENT BUILD\x1b[0m");
+      await doBuildClient(ssrConfig, viteConfig);
+      viteConfig.logger.info("");
+      viteConfig.logger.info("\x1b[1m\x1b[31mSERVER BUILD\x1b[0m");
+      await doBuildServer(ssrConfig, viteConfig);
+      viteConfig.logger.info("");
+    },
+  };
+};
+
+export const pluginBuild = (ssrConfig: SSRConfig): PluginOption => {
+  if (ssrConfig.disableBuild) {
+    return null;
+  }
+  return [pluginBuildSkip(), pluginBuildSSR(ssrConfig)];
 };

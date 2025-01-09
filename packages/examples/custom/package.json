@@ -6,10 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:ssr": "vite build --mode ssr:clean && vite build --mode ssr:client && vite build --mode ssr:server",
-    "build:clean": "vite build --mode ssr:clean",
-    "build:client": "vite build --mode ssr:client",
-    "build:server": "vite build --mode ssr:server",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -22,6 +18,7 @@
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
     "express": "^4.21.1",
     "vite": "^5.4.11",
     "vite-plugin-chunk-split": "^0.5.0",
