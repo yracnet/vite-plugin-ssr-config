@@ -1,13 +1,13 @@
-import routes from "~react-pages";
-import { useRoutes } from "react-router-dom";
-import React from "react";
 import { RootDocument } from "@ssr/root.jsx";
+import React from "react";
+import { useRoutes } from "react-router-dom";
+import routes from "~react-pages";
 
 export const RootRoutes = () => {
   const newRoutes = [
     {
       caseSensitive: false,
-      path: "/",
+      path: "",
       element: React.createElement(RootDocument),
       children: routes,
     },

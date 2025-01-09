@@ -1,27 +1,27 @@
-import { renderToPipeableStream } from "react-dom/server";
 import { PageServer } from "@ssr/pageServer.jsx";
 import { StrictMode } from "react";
+import { renderToPipeableStream } from "react-dom/server";
 
 const renderDefault = async (request, response, next) => {
   const { pipe } = renderToPipeableStream(
     <StrictMode>
-      <PageServer path={request.url} />
+      <PageServer path={request.originalUrl} />
     </StrictMode>,
     {
       bootstrapScripts: [],
       onShellReady: () => {
-        // console.log(request.url, "onShellReady");
+        // console.log(request.originalUrl, "onShellReady");
         response.setHeader("content-type", "text/html");
         pipe(response);
       },
       onAllReady: () => {
-        // console.log(request.url, "onAllReady");
+        // console.log(request.originalUrl, "onAllReady");
       },
       onShellError: (error) => {
-        // console.log(request.url, "onShellError", error);
+        // console.log(request.originalUrl, "onShellError", error);
       },
       onError: (error, errorInfo) => {
-        // console.log(request.url, "onError", error, errorInfo);
+        // console.log(request.originalUrl, "onError", error, errorInfo);
         next(error);
       },
     }

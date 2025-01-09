@@ -2,17 +2,20 @@ import fs from "fs-extra";
 import path from "path";
 import { PluginOption } from "vite";
 import { SSRConfig } from "../model.js";
+import { finalUrl } from "../utils.js";
 
 export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
   return {
     name: "vite-plugin-ssr-kit:serve",
     enforce: "post",
     apply: "serve",
-    config: () => {
+    config: ({ base = "/" }) => {
+      const ssrClientEntry = finalUrl(base, ssrConfig.entryClient);
       return {
         appType: "custom",
         define: {
-          "process.env.SSR_ENTRY_CLIENT": JSON.stringify(ssrConfig.entryClient),
+          "process.env.SSR_BASENAME": JSON.stringify(base),
+          "process.env.SSR_ENTRY_CLIENT": JSON.stringify(ssrClientEntry),
         },
       };
     },

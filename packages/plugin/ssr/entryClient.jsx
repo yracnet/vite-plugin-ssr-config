@@ -10,8 +10,8 @@ startTransition(() => {
     </StrictMode>,
     {
       onRecoverableError: (error, { componentStack }) => {
-        const logs = componentStack.split("\n");
-        console.log("Error:", logs);
+        const logs = componentStack?.split("\n");
+        console.log("Error:", error, logs);
       },
     }
   );

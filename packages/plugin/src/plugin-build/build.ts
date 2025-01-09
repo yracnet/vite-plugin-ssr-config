@@ -53,6 +53,7 @@ export const doBuildServer = async (
     root,
     publicDir: "private",
     define: {
+      "process.env.SSR_BASENAME": JSON.stringify(base),
       "process.env.SSR_PUBLIC_DIR": JSON.stringify(ssrPublicDir),
       "process.env.SSR_ENTRY_CLIENT": JSON.stringify(entryClientURL),
     },
@@ -72,7 +73,7 @@ export const doBuildServer = async (
           format: "es",
           entryFileNames: "app.js",
           chunkFileNames: "bin/[name]-[hash].js",
-          assetFileNames: "assets/[name].[ext]",
+          assetFileNames: "assets/[name]-[hash].[ext]",
           manualChunks: (id) => {
             const isSsr = ssrFiles.find(
               (it) => id.startsWith(it) || id.endsWith(it)
@@ -105,6 +106,7 @@ export const doBuildClient = async (
   ssrConfig: SSRConfig,
   viteConfig: ResolvedConfig
 ) => {
+  const { base = "/" } = viteConfig;
   const { root, clientMinify, clientOutDir, entryClient, clientBuild } =
     ssrConfig;
   const preloadFiles = [
@@ -116,10 +118,14 @@ export const doBuildClient = async (
   const baseConfig: InlineConfig = {
     root,
     appType: "custom",
+    define: {
+      "process.env.SSR_BASENAME": JSON.stringify(base),
+    },
     build: {
       write: true,
       manifest: true,
       minify: clientMinify,
+      target: "modules",
       emptyOutDir: false,
       outDir: clientOutDir,
       rollupOptions: {
@@ -128,6 +134,7 @@ export const doBuildClient = async (
           main: path.resolve(root, entryClient),
         },
         output: {
+          format: "es",
           entryFileNames: `assets/[name]-[hash].js`,
           chunkFileNames: `chunks/[name]-[hash].js`,
           assetFileNames: `assets/[name]-[hash].[ext]`,

@@ -6,6 +6,7 @@ import ssrKit from "../../plugin/src";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/myapp",
   ssr: {
     noExternal: ["styled-components"],
   },
@@ -13,7 +14,7 @@ export default defineConfig({
     minify: false,
     rollupOptions: {
       input: {
-        main: "spa/index.html",
+        spa: "spa/index.html",
       },
     },
   },
@@ -25,18 +26,16 @@ export default defineConfig({
     }),
     ssrKit({
       rootDocument: "src/root.jsx",
+      clientMinify: false,
+      serverMinify: false,
       // clientBuild: () => {
       //   return {
       //     build: {
-      //       minify: false,
       //       rollupOptions: {
       //         output: {
-      //           manualChunks: (id) => {
-      //             if (id.includes("node_modules/")) {
-      //               return "lib";
-      //             } else if (id.includes("src/pages/")) {
-      //               return "pages";
-      //             }
+      //           manualChunks: {
+      //             //react: ["react", "react-dom"],
+      //             //router: ["react-router", "react-router-dom"],
       //           },
       //         },
       //       },

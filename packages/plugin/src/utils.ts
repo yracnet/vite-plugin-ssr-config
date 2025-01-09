@@ -5,8 +5,9 @@ import { SSRConfig, SSRUserConfig } from "./model.js";
 
 export const ENTRY_NONE = "_____.html";
 
-export const finalUrl = (base: string, path: string) => {
-  return `${base.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+export const finalUrl = (base: string, name: string) => {
+  return path.join(base, name).replaceAll("\\", "/");
+  //return `${base.replace(/\/+$/, "")}/${name.replace(/^\/+/, "")}`;
 };
 
 export const getPluginDirectory = () => {
