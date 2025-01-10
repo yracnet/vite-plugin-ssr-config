@@ -11,11 +11,11 @@ const renderDefault = async (request, response, next) => {
       bootstrapScripts: [],
       onShellReady: () => {
         // console.log(request.originalUrl, "onShellReady");
-        response.setHeader("content-type", "text/html");
-        pipe(response);
       },
       onAllReady: () => {
         // console.log(request.originalUrl, "onAllReady");
+        response.setHeader("content-type", "text/html");
+        pipe(response);
       },
       onShellError: (error) => {
         // console.log(request.originalUrl, "onShellError", error);
