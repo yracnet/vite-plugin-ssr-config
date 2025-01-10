@@ -30,7 +30,8 @@
   },
   "files": [
     "dist/",
-    "ssr/"
+    "ssr/",
+    "README.md"
   ],
   "repository": {
     "type": "git",
