@@ -2,7 +2,7 @@ import { LiveReload } from "@ssr/liveReload.jsx";
 import { ViteScripts } from "@ssr/viteScripts.jsx";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +24,10 @@ export const RootDocument = () => {
           />
           <title>Vite + React SSR</title>
           <link rel="icon" href="vite.svg" type="image/svg" />
+          <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+          />
           <LiveReload />
         </head>
         <body>
@@ -33,14 +37,20 @@ export const RootDocument = () => {
               <Navbar.Toggle aria-controls="navbarNav" />
               <Navbar.Collapse id="navbarNav">
                 <Nav className="me-auto">
-                  <Nav.Link href="/">Home</Nav.Link>
-                  <Nav.Link href="/posts">Posts</Nav.Link>
-                  <Nav.Link href="/spa">SPA</Nav.Link>
+                  <Nav.Link to="/" as={Link}>
+                    Home
+                  </Nav.Link>
+                  <Nav.Link to="/posts" as={Link}>
+                    Posts
+                  </Nav.Link>
+                  <Nav.Link href="/myapp/spa">SPA Entry</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
           </Container>
-          <Outlet />
+          <Container>
+            <Outlet />
+          </Container>
           <ViteScripts />
         </body>
       </html>
