@@ -76,7 +76,7 @@ mv index.html spa/
 Create the necessary directories for SSR:
 
 ```bash
-mkdir -p ssr/pages/posts/$1
+mkdir -p ssr/pages/posts/$id
 ```
 
 ## 4. Create the Root Document
