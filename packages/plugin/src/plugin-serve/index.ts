@@ -42,6 +42,8 @@ export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
         });
         devServer.middlewares.use(async (req, res, next) => {
           try {
+            //@ts-ignore
+            process.env.SSR = true;
             const mod = await devServer.ssrLoadModule("@ssr/handler.js", {
               fixStacktrace: true,
             });

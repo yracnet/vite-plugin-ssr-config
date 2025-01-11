@@ -1,7 +1,8 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import pages from "vite-plugin-pages";
-import ssr from "vite-plugin-ssr-kit";
+//import ssr from "vite-plugin-ssr-kit";
+import ssr from "../../plugin/src";
 
 export default defineConfig({
   base: "/myapp",
@@ -13,6 +14,10 @@ export default defineConfig({
     }),
     ssr({
       rootDocument: "ssr/root.jsx",
+      entryClient: "ssr/entryClient.jsx",
+      entryRender: "ssr/entryRender.jsx",
+      pageServer: "ssr/pageServer.jsx",
+      pageBrowser: "ssr/pageBrowser.jsx",
     }),
   ],
   build: {

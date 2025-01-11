@@ -58,6 +58,7 @@ export const doBuildServer = async (
       "process.env.SSR_BASENAME": JSON.stringify(base),
       "process.env.SSR_PUBLIC_DIR": JSON.stringify(ssrPublicDir),
       "process.env.SSR_ENTRY_CLIENT": JSON.stringify(ssrEntryClientURL),
+      "process.env.SSR": JSON.stringify(true),
     },
     ssr: {
       noExternal: [],
@@ -124,6 +125,7 @@ export const doBuildClient = async (
     base,
     define: {
       "process.env.SSR_BASENAME": JSON.stringify(base),
+      "process.env.SSR": JSON.stringify(false),
     },
     build: {
       write: true,

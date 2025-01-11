@@ -1,6 +1,7 @@
 import { Card, Col, Row } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { withDelay } from "../../hooks";
 
 const getPosts = () =>
   fetch("https://jsonplaceholder.typicode.com/posts")
@@ -9,8 +10,10 @@ const getPosts = () =>
       throw e;
     });
 
+const getPostsWithDelay = withDelay(getPosts, 2000);
+
 export default function PostsPage() {
-  const { data } = useQuery("posts", getPosts);
+  const { data = [] } = useQuery("posts", getPostsWithDelay);
   return (
     <div>
       <Row>
