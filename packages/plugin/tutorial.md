@@ -329,6 +329,13 @@ The build will generate:
   └── client/spa/      # SPA public assets
 ```
 
+Enter the 'dist' directory and run the server
+
+```bash
+cd dist
+node app.js
+```
+
 ### 7.3 Sanbox Production Server Configuration
 
 For production deployment, you can configure sanbox server settings using a private directory:
@@ -360,17 +367,10 @@ SERVER_HOST=127.0.0.1
 SERVER_PORT=4000
 ```
 
-To start the production server:
+Start the production server for the Sandbox project
 
 ```bash
 cd dist
-yarn start
-```
-
-or
-
-```bash
-cd dist # The directory is a Sandbox project
 yarn install
 yarn start
 ```
