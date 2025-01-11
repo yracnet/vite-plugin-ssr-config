@@ -3,9 +3,18 @@ import { StrictMode } from "react";
 import { renderToPipeableStream } from "react-dom/server";
 
 const renderDefault = async (request, response, next) => {
+  let hydratedState = "";
+  const setHydratedState = (state) => {
+    state = JSON.stringify(state);
+    hydratedState = btoa(state);
+  };
   const { pipe } = renderToPipeableStream(
     <StrictMode>
-      <PageServer path={request.originalUrl} />
+      <PageServer
+        path={request.originalUrl}
+        hydratedState={""} // Access is Not Allowed
+        setHydratedState={setHydratedState}
+      />
     </StrictMode>,
     {
       bootstrapScripts: [],
@@ -16,6 +25,9 @@ const renderDefault = async (request, response, next) => {
         // console.log(request.originalUrl, "onAllReady");
         response.setHeader("content-type", "text/html");
         pipe(response);
+        response.write(
+          `<script>window.__HYDRATED_STATE__ = "${hydratedState}";</script>`
+        );
       },
       onShellError: (error) => {
         // console.log(request.originalUrl, "onShellError", error);

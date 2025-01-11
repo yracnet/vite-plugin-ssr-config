@@ -10,22 +10,16 @@ const getPost = (id) =>
       throw e;
     });
 
-const getPostWithDelay = withDelay(getPost, 1500);
+const getPostWithDelay = withDelay(getPost, 200);
 
 function PostPage() {
   const { id } = useParams();
-  const { data = {} } = useQuery(["posts", id], () => getPostWithDelay(id), {
-    suspense: !!process.env.SSR,
-  });
-
+  const { data = {} } = useQuery(["posts", id], () => getPostWithDelay(id));
   return (
     <Card>
       <Card.Header>{data.title}</Card.Header>
       <Card.Body>
         <Card.Text>{data.body}</Card.Text>
-        <h1 suppressHydrationWarning={true}>
-          ==={process.env.SSR ? "TRUE" : "FALSE"}
-        </h1>
         <Card.Link as={Link} to="/posts">
           Back to Posts
         </Card.Link>

@@ -87,65 +87,51 @@ Create `/ssr/root.jsx` to define the root document structure for server-side ren
 import { LiveReload } from "@ssr/liveReload.jsx";
 import { ViteScripts } from "@ssr/viteScripts.jsx";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { Link, Outlet } from "react-router-dom";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      suspense: true, // Important: This ensures proper SSR behavior
-    },
-  },
-});
 
 export const RootDocument = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <html lang="en">
-        <head>
-          <meta charSet="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <title>Vite + React SSR</title>
-          <link rel="icon" href="vite.svg" type="image/svg" />
-          <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-          />
-          <LiveReload />
-        </head>
-        <body>
-          <Container>
-            <Navbar bg="light" expand="lg">
-              <Navbar.Brand href="/">Vite SSR</Navbar.Brand>
-              <Navbar.Toggle aria-controls="navbarNav" />
-              <Navbar.Collapse id="navbarNav">
-                <Nav className="me-auto">
-                  <Nav.Link to="/" as={Link}>
-                    Home
-                  </Nav.Link>
-                  <Nav.Link to="/posts" as={Link}>
-                    Posts
-                  </Nav.Link>
-                  <Nav.Link href="/myapp/spa">SPA Entry</Nav.Link>
-                </Nav>
-              </Navbar.Collapse>
-            </Navbar>
-          </Container>
-          <Container>
-            <Outlet />
-          </Container>
-          <ViteScripts />
-        </body>
-      </html>
-    </QueryClientProvider>
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite + React SSR</title>
+        <link rel="icon" href="vite.svg" type="image/svg" />
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+        />
+        <LiveReload />
+      </head>
+      <body>
+        <Container>
+          <Navbar bg="light" expand="lg">
+            <Navbar.Brand href="/myapp/">Vite SSR</Navbar.Brand>
+            <Navbar.Toggle aria-controls="navbarNav" />
+            <Navbar.Collapse id="navbarNav">
+              <Nav className="me-auto">
+                <Nav.Link to="/" as={Link}>
+                  Home
+                </Nav.Link>
+                <Nav.Link to="/posts" as={Link}>
+                  Posts
+                </Nav.Link>
+                <Nav.Link href="/myapp/spa">Vite SPA Entry</Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </Container>
+        <Container>
+          <Outlet />
+        </Container>
+        <ViteScripts />
+      </body>
+    </html>
   );
 };
 ```
 
-> Important Note: Setting `suspense: true` in QueryClient configuration is crucial for maintaining the SSR appearance of the application. Without this setting, the client-side hydration process might cause flickering or inconsistencies between the server-rendered content and the client-side state.
+> Important Note: PageServer uses `suspense: true` in all requests to ensure proper SSR rendering. On the other hand, PageBrowser uses `suspense: false` to allow smooth client-side navigation. This setup guarantees correct SSR rendering while preventing flickering and inconsistencies between the server-rendered content and the client-side state during hydration.
 
 ## 5. Create Application Pages
 
@@ -186,7 +172,7 @@ const getPosts = () =>
     });
 
 export default function PostsPage() {
-  const { data } = useQuery("posts", getPosts);
+  const { data = [] } = useQuery("posts", getPosts);
   return (
     <div>
       <Row>
@@ -227,7 +213,7 @@ const getPost = (id) =>
 
 export default function PostPage() {
   const { id } = useParams();
-  const { data } = useQuery(["posts", id], () => getPost(id));
+  const { data = {} } = useQuery(["posts", id], () => getPost(id));
   return (
     <Card>
       <Card.Header>{data.title}</Card.Header>

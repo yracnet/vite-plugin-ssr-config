@@ -10,7 +10,7 @@ const getPosts = () =>
       throw e;
     });
 
-const getPostsWithDelay = withDelay(getPosts, 2000);
+const getPostsWithDelay = withDelay(getPosts, 200);
 
 export default function PostsPage() {
   const { data = [] } = useQuery("posts", getPostsWithDelay);

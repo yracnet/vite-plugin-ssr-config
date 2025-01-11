@@ -14,10 +14,6 @@ export default defineConfig({
     }),
     ssr({
       rootDocument: "ssr/root.jsx",
-      entryClient: "ssr/entryClient.jsx",
-      entryRender: "ssr/entryRender.jsx",
-      pageServer: "ssr/pageServer.jsx",
-      pageBrowser: "ssr/pageBrowser.jsx",
     }),
   ],
   build: {

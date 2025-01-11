@@ -2,6 +2,15 @@
 
 This plugin enables server-side rendering (SSR) with Vite, providing essential configurations and customization options for building both the client and server bundles, along with the necessary React components for SSR.
 
+## Additional Resources
+
+For more detailed information and resources related to `vite-plugin-ssr-kit`, please refer to the following:
+
+- **npm Package**: [vite-plugin-ssr-kit](https://www.npmjs.com/package/vite-plugin-ssr-kit)
+- **GitHub Repository**: [yracnet/vite-plugin-ssr-kit](https://github.com/yracnet/vite-plugin-ssr-kit)
+- **Dev.to Article**: [Create an SSR Application with Vite, React, React Query and React Router](https://dev.to/yracnet/create-an-ssr-application-with-vite-react-react-query-and-react-router-2dd5)
+- **Tutorial**: [Tutorial](./tutorial.md)
+
 ## Install
 
 To add this plugin to your project, run the following commands:
@@ -87,6 +96,8 @@ export default defineConfig({
   ],
 });
 ```
+
+> Important Note: PageServer uses `suspense: true` in all requests to ensure proper SSR rendering. On the other hand, PageBrowser uses `suspense: false` to allow smooth client-side navigation. This setup guarantees correct SSR rendering while preventing flickering and inconsistencies between the server-rendered content and the client-side state during hydration.
 
 ## Customization
 
