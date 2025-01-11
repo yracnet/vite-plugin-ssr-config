@@ -370,8 +370,9 @@ yarn start
 or
 
 ```bash
-cd dist
-node app.js
+cd dist # The directory is a Sandbox project
+yarn install
+yarn start
 ```
 
 > Note: The server will be running at: http://127.0.0.1:4000/myapp
@@ -392,3 +393,10 @@ This tutorial has shown you how to:
 - Handle server-side rendering of React components
 
 The resulting application provides a solid foundation for building performant, server-rendered React applications while maintaining the option to serve a traditional SPA version when needed.
+
+## Additional Resources
+
+For more detailed information and resources related to `vite-plugin-ssr-kit`, please refer to the following:
+
+- **npm Package**: [vite-plugin-ssr-kit](https://www.npmjs.com/package/vite-plugin-ssr-kit)
+- **GitHub Repository**: [yracnet/vite-plugin-ssr-kit](https://github.com/yracnet/vite-plugin-ssr-kit)
