@@ -3,9 +3,7 @@ import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 
 startTransition(() => {
-  let hydratedState = window.__HYDRATED_STATE__;
-  delete window.__HYDRATED_STATE__;
-  hydratedState = JSON.parse(atob(hydratedState));
+  const hydratedState = JSON.parse(atob(window.__HYDRATED_STATE__));
   const setHydratedState = () => {
     throw Error("Changes Not Allowed");
   };

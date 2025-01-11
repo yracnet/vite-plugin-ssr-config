@@ -21,6 +21,9 @@ export default function PostsPage() {
           <Col key={post.id} sm={12} md={6} lg={4} className="mb-4">
             <Card>
               <Card.Body>
+                <Card.Img
+                  src={`https://placehold.jp/f8f9fa/272728/200x100.png?text=${post.title}&css={"font-size":"16px"}`}
+                />
                 <Card.Title>{post.title}</Card.Title>
                 <Card.Text>{post.body}</Card.Text>
                 <Card.Link as={Link} to={`/posts/${post.id}`}>

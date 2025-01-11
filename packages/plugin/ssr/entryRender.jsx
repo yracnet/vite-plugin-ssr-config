@@ -3,10 +3,9 @@ import { StrictMode } from "react";
 import { renderToPipeableStream } from "react-dom/server";
 
 const renderDefault = async (request, response, next) => {
-  let hydratedState = "";
+  let hydratedState = {};
   const setHydratedState = (state) => {
-    state = JSON.stringify(state);
-    hydratedState = btoa(state);
+    hydratedState = state;
   };
   const { pipe } = renderToPipeableStream(
     <StrictMode>
@@ -26,7 +25,9 @@ const renderDefault = async (request, response, next) => {
         response.setHeader("content-type", "text/html");
         pipe(response);
         response.write(
-          `<script>window.__HYDRATED_STATE__ = "${hydratedState}";</script>`
+          `<script>window.__HYDRATED_STATE__ = "${btoa(
+            JSON.stringify(hydratedState)
+          )}";</script>`
         );
       },
       onShellError: (error) => {

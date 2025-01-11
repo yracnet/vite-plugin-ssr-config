@@ -1,6 +1,6 @@
 # vite-plugin-ssr-kit
 
-This plugin enables server-side rendering (SSR) with Vite, providing essential configurations and customization options for building both the client and server bundles, along with the necessary React components for SSR.
+[vite-plugin-ssr-kit](https://github.com/yracnet/vite-plugin-ssr-kit) configures server-side rendering (SSR) with Vite, providing essential setups and options for building both client and server bundles, along with necessary React components for SSR, specifically for [React](https://reactjs.org/ "react - A JavaScript library for building user interfaces"), [React Router](https://reactrouter.com/ "react-router - Declarative routing for React"), and [React Query](https://tanstack.com/query "react-query - Data fetching and caching library").
 
 ## Additional Resources
 
