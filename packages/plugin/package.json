@@ -29,7 +29,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yracnet/vite-plugin-ssr-config"
+    "url": "git+https://github.com/yracnet/vite-plugin-ssr-config.git"
   },
   "homepage": "https://github.com/yracnet/vite-plugin-ssr-config",
   "bugs": "https://github.com/yracnet/vite-plugin-ssr-config/issues",
