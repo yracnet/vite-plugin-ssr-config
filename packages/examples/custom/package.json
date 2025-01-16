@@ -23,6 +23,6 @@
     "vite": "^5.4.11",
     "vite-plugin-chunk-split": "^0.5.0",
     "vite-plugin-pages": "^0.32.3",
-    "vite-plugin-ssr-kit": "*"
+    "vite-plugin-ssr-config": "*"
   }
 }

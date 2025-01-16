@@ -1,6 +1,6 @@
 # Create an SSR Application with Vite, React, React Query and React Router
 
-In this tutorial, we will create a server-side rendered (SSR) application using **Vite**, **React**, **React Query**, **React Bootstrap**, and **React Router**. We'll also configure the `vite-plugin-ssr-kit` plugin to handle SSR rendering.
+In this tutorial, we will create a server-side rendered (SSR) application using **Vite**, **React**, **React Query**, **React Bootstrap**, and **React Router**. We'll also configure the `vite-plugin-ssr-config` plugin to handle SSR rendering.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ cd my-ssr-app
 Install the following dependencies:
 
 ```bash
-yarn add react-router-dom@^6.28.0 react-bootstrap react-query vite-plugin-ssr-kit vite-plugin-pages
+yarn add react-router-dom@^6.28.0 react-bootstrap react-query vite-plugin-ssr-config vite-plugin-pages
 ```
 
 Let's understand what each package does:
@@ -47,10 +47,9 @@ Let's understand what each package does:
   - Provides hooks for data fetching, caching, and updates
   - Handles loading and error states automatically
 
-- **vite-plugin-ssr-kit**: Plugin that enables server-side rendering in Vite applications.
+- **vite-plugin-ssr-config**: Plugin that enables server-side rendering in Vite applications.
 
-  - Handles SSR configuration and setup
-  - Provides utilities for SSR lifecycle management
+  - Handles SSR configuration
   - Manages client/server code splitting
 
 - **vite-plugin-pages**: File system based routing plugin for Vite.
@@ -236,7 +235,7 @@ Modify the existing `vite.config.js` file:
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import pages from "vite-plugin-pages";
-import ssr from "vite-plugin-ssr-kit";
+import ssr from "vite-plugin-ssr-config";
 
 export default defineConfig({
   base: "/myapp",
@@ -379,8 +378,13 @@ yarn start
 
 ## Additional Resources
 
-- For a complete working example, visit the [GitHub repository](https://github.com/yracnet/vite-plugin-ssr-kit) and check the `packages/examples/my-ssr-app` directory.
-- For more information about the SSR Kit plugin, refer to the [vite-plugin-ssr-kit documentation](https://github.com/yracnet/vite-plugin-ssr-kit/packages/plugin).
+For more detailed information and resources related to `vite-plugin-ssr-config`, please refer to the following:
+
+- **npm Package**: [vite-plugin-ssr-config](https://www.npmjs.com/package/vite-plugin-ssr-config)
+- **GitHub Repository**: [yracnet/vite-plugin-ssr-config](https://github.com/yracnet/vite-plugin-ssr-config)
+
+- For a complete working example, visit the [GitHub example repository](https://github.com/yracnet/vite-plugin-ssr-config/tree/main/packages/examples/my-ssr-app) and check the `packages/examples/my-ssr-app` directory.
+- For more information about the SSR plugin, refer to the [vite-plugin-ssr-config documentation](https://github.com/yracnet/vite-plugin-ssr-config/tree/main/packages/plugin).
 
 ## Summary
 
@@ -393,10 +397,3 @@ This tutorial has shown you how to:
 - Handle server-side rendering of React components
 
 The resulting application provides a solid foundation for building performant, server-rendered React applications while maintaining the option to serve a traditional SPA version when needed.
-
-## Additional Resources
-
-For more detailed information and resources related to `vite-plugin-ssr-kit`, please refer to the following:
-
-- **npm Package**: [vite-plugin-ssr-kit](https://www.npmjs.com/package/vite-plugin-ssr-kit)
-- **GitHub Repository**: [yracnet/vite-plugin-ssr-kit](https://github.com/yracnet/vite-plugin-ssr-kit)

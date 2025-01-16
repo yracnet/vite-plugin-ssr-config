@@ -6,12 +6,12 @@ import { pluginResolve } from "./plugin-resolve/index.js";
 import { pluginServe } from "./plugin-serve/index.js";
 import { cleanDirectory, copyFilesDirectory, findDirPlugin } from "./utils.js";
 
-export const ssrKit = (userConfig: SSROpts = {}): PluginOption => {
-  const ssrConfig = assertSSRConfig(userConfig);
-  const ssrOrigin = findDirPlugin("ssr");
-  const ssrTarget = path.join(ssrConfig.root, ".ssr");
-  cleanDirectory(ssrTarget);
-  copyFilesDirectory(ssrOrigin, ssrTarget, {
+export const ssrConfig = (opts: SSROpts = {}): PluginOption => {
+  const ssrConfig = assertSSRConfig(opts);
+  const cacheOrigin = findDirPlugin("ssr");
+  const cacheTarget = path.join(ssrConfig.root, ".ssr");
+  cleanDirectory(cacheTarget);
+  copyFilesDirectory(cacheOrigin, cacheTarget, {
     files: [
       "entryClient.jsx",
       "entryRender.jsx",
@@ -33,6 +33,6 @@ export const ssrKit = (userConfig: SSROpts = {}): PluginOption => {
   ];
 };
 
-export const ssr = ssrKit;
+export const ssr = ssrConfig;
 
-export default ssrKit;
+export default ssrConfig;

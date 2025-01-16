@@ -1,12 +1,13 @@
 {
-  "name": "ssr-kit",
+  "name": "ssr-config",
   "version": "1.0.0",
   "private": true,
-  "repository": "https://github.com/yracnet/vite-plugin-ssr-kit.git",
+  "repository": "https://github.com/yracnet/vite-plugin-ssr-config.git",
   "author": "Willyams Yujra <yracnet@gmail.com>",
   "license": "MIT",
   "workspaces": [
     "packages/plugin",
-    "packages/examples/*"
+    "packages/examples/basic",
+    "packages/examples/custom"
   ]
 }

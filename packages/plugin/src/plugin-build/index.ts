@@ -6,7 +6,7 @@ import { doBuildClient, doBuildServer } from "./build";
 const pluginBuildSkip = (): PluginOption => {
   const ENTRY_NONE = "____.html";
   return {
-    name: "vite-plugin-ssr-kit:skip",
+    name: "vite-plugin-ssr-config:skip",
     enforce: "pre",
     apply: "build",
     config: () => {
@@ -43,7 +43,7 @@ const pluginBuildSSR = (ssrConfig: SSRConfig): PluginOption => {
   //@ts-ignore
   let viteConfig: ResolvedConfig = {};
   return {
-    name: "vite-plugin-ssr-kit:build",
+    name: "vite-plugin-ssr-config:build",
     enforce: "pre",
     apply: "build",
     configResolved: (config) => {

@@ -7,7 +7,7 @@ import { finalUrl } from "../utils.js";
 export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
   const { entryClient, root } = ssrConfig;
   return {
-    name: "vite-plugin-ssr-kit:serve",
+    name: "vite-plugin-ssr-config:serve",
     enforce: "post",
     apply: "serve",
     config: ({ base = "/" }) => {

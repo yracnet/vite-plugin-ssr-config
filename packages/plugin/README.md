@@ -1,13 +1,13 @@
-# vite-plugin-ssr-kit
+# vite-plugin-ssr-config
 
-[vite-plugin-ssr-kit](https://github.com/yracnet/vite-plugin-ssr-kit) configures server-side rendering (SSR) with Vite, providing essential setups and options for building both client and server bundles, along with necessary React components for SSR, specifically for [React](https://reactjs.org/ "react - A JavaScript library for building user interfaces"), [React Router](https://reactrouter.com/ "react-router - Declarative routing for React"), and [React Query](https://tanstack.com/query "react-query - Data fetching and caching library").
+[vite-plugin-ssr-config](https://github.com/yracnet/vite-plugin-ssr-config) configures server-side rendering (SSR) with Vite, providing essential setups and options for building both client and server bundles, along with necessary React components for SSR, specifically for [React](https://reactjs.org/ "react - A JavaScript library for building user interfaces"), [React Router](https://reactrouter.com/ "react-router - Declarative routing for React"), and [React Query](https://tanstack.com/query "react-query - Data fetching and caching library").
 
 ## Additional Resources
 
-For more detailed information and resources related to `vite-plugin-ssr-kit`, please refer to the following:
+For more detailed information and resources related to `vite-plugin-ssr-config`, please refer to the following:
 
-- **npm Package**: [vite-plugin-ssr-kit](https://www.npmjs.com/package/vite-plugin-ssr-kit)
-- **GitHub Repository**: [yracnet/vite-plugin-ssr-kit](https://github.com/yracnet/vite-plugin-ssr-kit)
+- **npm Package**: [vite-plugin-ssr-config](https://www.npmjs.com/package/vite-plugin-ssr-config)
+- **GitHub Repository**: [yracnet/vite-plugin-ssr-config](https://github.com/yracnet/vite-plugin-ssr-config)
 - **Dev.to Article**: [Create an SSR Application with Vite, React, React Query and React Router](https://dev.to/yracnet/create-an-ssr-application-with-vite-react-react-query-and-react-router-2dd5)
 - **Tutorial**: [Tutorial](./tutorial.md)
 
@@ -16,12 +16,12 @@ For more detailed information and resources related to `vite-plugin-ssr-kit`, pl
 To add this plugin to your project, run the following commands:
 
 ```bash
-yarn add vite-plugin-ssr-kit vite-plugin-pages react-router-dom -D
+yarn add vite-plugin-ssr-config vite-plugin-pages react-router-dom -D
 ```
 
 This will install:
 
-- vite-plugin-ssr-kit: The plugin for server-side rendering (SSR) with Vite.
+- vite-plugin-ssr-config: The plugin for server-side rendering (SSR) with Vite.
 - vite-plugin-pages: Automatically generate route files for your pages.
 - react-router-dom: The routing library for React, used to manage navigation within the app.
 
@@ -37,7 +37,7 @@ To use the plugin, you need to integrate it with Vite’s `defineConfig` method 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import pages from "vite-plugin-pages";
-import ssr from "vite-plugin-ssr-kit";
+import ssr from "vite-plugin-ssr-config";
 
 export default defineConfig({
   plugins: [react(), pages(), ssr()],
@@ -52,7 +52,7 @@ The following default values are provided for each configurable attribute in the
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import pages from "vite-plugin-pages";
-import ssr from "vite-plugin-ssr-kit";
+import ssr from "vite-plugin-ssr-config";
 
 export default defineConfig({
   plugins: [
@@ -113,7 +113,7 @@ This allows you to tailor the plugin to your project’s specific needs, includi
 
 # Configuration Options
 
-Here are all the configurable options available with `vite-plugin-ssr-kit`:
+Here are all the configurable options available with `vite-plugin-ssr-config`:
 
 ### `root` (string)
 

@@ -21,7 +21,7 @@ export const pluginResolve = (ssrConfig: SSRConfig): PluginOption => {
     return path.join(root, name);
   };
   return {
-    name: "vite-plugin-ssr-kit:resolve",
+    name: "vite-plugin-ssr-config:resolve",
     enforce: "pre",
     config: () => {
       return {

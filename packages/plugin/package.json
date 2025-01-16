@@ -1,20 +1,17 @@
 {
-  "name": "vite-plugin-ssr-kit",
+  "name": "vite-plugin-ssr-config",
   "version": "1.0.3",
   "license": "MIT",
   "description": "A powerful Vite plugin designed to enable Server-Side Rendering (SSR) for React applications. It provides a comprehensive solution for bundling both SSR and CSR, with built-in support for React Router and React Query for efficient API handling and page rendering.",
   "keywords": [
     "vite",
     "vite plugin",
-    "vite-plugin",
-    "vite-plugin-ssr-kit",
-    "server-side rendering",
     "ssr",
-    "client-side rendering",
-    "csr",
     "react",
     "react-router",
-    "react-query"
+    "react-query",
+    "server",
+    "express"
   ],
   "author": "Willyams Yujra",
   "type": "module",
@@ -32,10 +29,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yracnet/vite-plugin-ssr-kit"
+    "url": "https://github.com/yracnet/vite-plugin-ssr-config"
   },
-  "homepage": "https://github.com/yracnet/vite-plugin-ssr-kit",
-  "bugs": "https://github.com/yracnet/vite-plugin-ssr-kit/issues",
+  "homepage": "https://github.com/yracnet/vite-plugin-ssr-config",
+  "bugs": "https://github.com/yracnet/vite-plugin-ssr-config/issues",
   "scripts": {
     "build": "tsup",
     "prepublish": "yarn build",
