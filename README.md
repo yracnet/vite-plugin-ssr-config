@@ -2,6 +2,8 @@
 
 This project provides a Vite plugin to support server-side rendering (SSR) for React applications. It allows for efficient SSR bundling and client-side rendering (CSR) for modern web apps.
 
+```vite ssr``` ```Vite plugin for SSR``` ```SSR + Vite``` ```SSR First``` ```Vite Plugin Ssr Examples and Templates``` ```Server-Side Rendering``` ```vite-plugin-ssr config```
+
 ## Framework-Agnostic
 
 While the plugin is designed to be framework-agnostic, it comes preconfigured for **React** and is optimized for use with **react-router-dom**. The configuration can be easily modified to suit other routing libraries or use cases, should you wish to switch frameworks or libraries.
