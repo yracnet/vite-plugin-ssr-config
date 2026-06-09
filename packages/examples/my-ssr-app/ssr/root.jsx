@@ -1,7 +1,7 @@
 import { LiveReload } from "@ssr/liveReload.jsx";
 import { ViteScripts } from "@ssr/viteScripts.jsx";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 
 export const RootDocument = ({ state, setState }) => {
   return (

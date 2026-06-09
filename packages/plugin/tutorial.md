@@ -86,7 +86,7 @@ Create `/ssr/root.jsx` to define the root document structure for server-side ren
 import { LiveReload } from "@ssr/liveReload.jsx";
 import { ViteScripts } from "@ssr/viteScripts.jsx";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 
 export const RootDocument = () => {
   return (
@@ -140,7 +140,7 @@ Create `/ssr/pages/index.jsx`:
 
 ```jsx
 import { Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function HomePage() {
   return (
@@ -161,7 +161,7 @@ Create `/ssr/pages/posts/index.jsx`:
 ```jsx
 import { Card, Col, Row } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const getPosts = () =>
   fetch("https://jsonplaceholder.typicode.com/posts")
@@ -201,7 +201,7 @@ Create `/ssr/pages/posts/$id/index.jsx`: (Note: Using $id for Remix-style routin
 ```jsx
 import { Card } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 
 const getPost = (id) =>
   fetch("https://jsonplaceholder.typicode.com/posts/" + id)

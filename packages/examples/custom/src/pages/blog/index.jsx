@@ -1,6 +1,6 @@
 import { Card, Col, Row } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const getPosts = () =>
   fetch("https://jsonplaceholder.typicode.com/posts").then((r) => r.json());

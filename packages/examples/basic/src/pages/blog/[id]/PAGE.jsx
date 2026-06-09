@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 
 const Component = () => {
   const { id } = useParams();
@@ -28,4 +28,4 @@ const Component = () => {
   );
 };
 
-export default Component;
+export default ()=><Suspense fallback={<h1>Cargando....</h1>}><Component/></Suspense>;

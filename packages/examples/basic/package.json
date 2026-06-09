@@ -10,19 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.3.1",
+    "react": "^19.2.7",
     "react-bootstrap": "^2.10.5",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0"
+    "react-dom": "^19.2.7",
+    "react-query": "^3.39.3",
+    "react-router": "^7.17.0",
+    "react-router-dom": "^7.17.0"
   },
   "devDependencies": {
-    "express": "^4.21.1",
-    "vite": "^5.4.11",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "express": "^4.21.1",
     "globals": "^15.14.0",
-    "vite-plugin-pages": "^0.32.3",
-    "vite-plugin-ssr-config": "*"
+    "vite": "^5.4.11",
+    "vite-plugin-ssr-config": "*",
+    "vite-plugin-web-routes": "^0.1.0"
   }
 }

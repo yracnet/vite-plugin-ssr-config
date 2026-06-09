@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 import { Container, Nav, Navbar, Spinner } from "react-bootstrap";
 
 const Blog = () => {

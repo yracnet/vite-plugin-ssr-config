@@ -40,7 +40,11 @@
   },
   "dependencies": {
     "dotenv-local": "^1.0.2",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router": "^7.17.0",
+    "react-router-dom": "^7.17.0"
   },
   "peerDependencies": {
     "vite": ">=4.0.0"

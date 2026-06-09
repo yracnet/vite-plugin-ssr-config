@@ -1,7 +1,7 @@
 import { LiveReload } from "@ssr/liveReload.jsx";
 import { ViteScripts } from "@ssr/viteScripts.jsx";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import viteSvg from "../public/vite.svg";
 import { Ledger } from "./atom/ledger";
 import { StyledInline } from "./atom/styledInline";

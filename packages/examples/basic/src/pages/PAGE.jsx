@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Suspense } from "react";
+import { Link } from "react-router";
 import { Navbar, Nav, Container } from "react-bootstrap";
 
 const IndexPage = () => {
@@ -23,4 +23,4 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default ()=><Suspense fallback={<h1>Cargando....</h1>}><IndexPage/></Suspense>;;

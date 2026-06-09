@@ -1,7 +1,6 @@
 import { LiveReload } from "@ssr/liveReload.jsx";
 import { ViteScripts } from "@ssr/viteScripts.jsx";
-import { Outlet } from "react-router-dom";
-import { Ledger } from "./atom/ledger";
+import { Outlet } from "react-router";
 
 export const RootDocument = () => {
   return (
@@ -18,7 +17,6 @@ export const RootDocument = () => {
         <LiveReload />
       </head>
       <body>
-        <Ledger />
         <Outlet />
         <ViteScripts />
       </body>

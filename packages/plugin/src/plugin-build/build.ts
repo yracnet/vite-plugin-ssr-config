@@ -31,7 +31,7 @@ export const doBuildServer = async (
   const ssrServerFile = path.resolve(root, server);
   const ssrPublicDir = path.relative(serverOutDir, clientOutDir);
 
-  const manifestFile = path.resolve(`${clientOutDir}/manifest.json`);
+  const manifestFile = path.resolve(`${clientOutDir}/.vite/manifest.json`);
   const manifestContent = fs.readFileSync(manifestFile, "utf-8");
   const manifest = JSON.parse(manifestContent);
   const manifestOut = manifest[entryClient].file;
@@ -131,7 +131,6 @@ export const doBuildClient = async (
       write: true,
       manifest: true,
       minify: clientMinify,
-      target: "modules",
       emptyOutDir: false,
       outDir: clientOutDir,
       rollupOptions: {

@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 import {
   Navbar,
   Nav,
@@ -47,4 +47,4 @@ const Component = () => {
   );
 };
 
-export default Component;
+export default ()=><Suspense fallback={<h1>Cargando....</h1>}><Component/></Suspense>;
