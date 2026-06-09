@@ -14,9 +14,7 @@
     "react-bootstrap": "^2.10.7",
     "react-dom": "^19.2.7",
     "react-query": "^3.39.3",
-    "react-router": "^7.17.0",
-    "react-router-dom": "^7.17.0",
-    "vite-plugin-pages": "^0.32.4"
+    "react-router": "^7.17.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

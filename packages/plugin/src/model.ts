@@ -53,7 +53,7 @@ export const assertSSRConfig = (ssrOpts: SSROpts = {}): SSRConfig => {
     serverOutDir = "dist/",
     serverMinify = false,
     serverBuild = (config) => config,
-    clientOutDir = "dist/client",
+    clientOutDir = "dist/public",
     clientMinify = true,
     clientBuild = (config) => config,
   } = ssrOpts;

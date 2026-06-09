@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import path from "path";
 import { type InlineConfig, type ResolvedConfig, build, mergeConfig } from "vite";
 import type { SSRConfig } from "../model";
-import { finalUrl } from "../utils";
+import { finalUrl, readManifest } from "../utils";
 
 export const doBuildServer = async (
   ssrConfig: SSRConfig,
@@ -30,10 +30,7 @@ export const doBuildServer = async (
 
   const ssrServerFile = path.resolve(root, server);
   const ssrPublicDir = path.relative(serverOutDir, clientOutDir);
-
-  const manifestFile = path.resolve(`${clientOutDir}/.vite/manifest.json`);
-  const manifestContent = fs.readFileSync(manifestFile, "utf-8");
-  const manifest = JSON.parse(manifestContent);
+  const manifest = readManifest(clientOutDir);
   const manifestOut = manifest[entryClient].file;
   const ssrEntryClientURL = finalUrl(base, manifestOut);
 

@@ -24,7 +24,8 @@ cd my-ssr-app
 Install the following dependencies:
 
 ```bash
-yarn add react-router react-bootstrap react-query vite-plugin-ssr-config vite-plugin-pages
+yarn add react-router react-bootstrap react-query
+yarn add -D vite-plugin-ssr-config vite-plugin-web-routes
 ```
 
 Let's understand what each package does:
@@ -52,7 +53,7 @@ Let's understand what each package does:
   - Handles SSR configuration
   - Manages client/server code splitting
 
-- **vite-plugin-pages**: File system based routing plugin for Vite.
+- **vite-plugin-web-routes**: File system based routing plugin for Vite.
   - Creates routes based on file structure
   - Supports dynamic routes
   - Integrates with react-router-dom
@@ -75,7 +76,7 @@ mv index.html spa/
 Create the necessary directories for SSR:
 
 ```bash
-mkdir -p ssr/pages/posts/$id
+mkdir -p ssr/pages/posts/[id]
 ```
 
 ## 4. Create the Root Document
@@ -136,7 +137,7 @@ export const RootDocument = () => {
 
 ### 5.1 Home Page
 
-Create `/ssr/pages/index.jsx`:
+Create `/ssr/pages/PAGE.jsx`:
 
 ```jsx
 import { Container, Button } from "react-bootstrap";
@@ -156,7 +157,7 @@ export default function HomePage() {
 
 ### 5.2 Posts List Page
 
-Create `/ssr/pages/posts/index.jsx`:
+Create `/ssr/pages/posts/PAGE.jsx`:
 
 ```jsx
 import { Card, Col, Row } from "react-bootstrap";
@@ -196,7 +197,7 @@ export default function PostsPage() {
 
 ### 5.3 Single Post Page
 
-Create `/ssr/pages/posts/$id/index.jsx`: (Note: Using $id for Remix-style routing)
+Create `/ssr/pages/posts/[id]/PAGE.jsx`: (Note: Using $id for Remix-style routing)
 
 ```jsx
 import { Card } from "react-bootstrap";
@@ -234,16 +235,19 @@ Modify the existing `vite.config.js` file:
 ```javascript
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import pages from "vite-plugin-pages";
+import web from "vite-plugin-web-routes";
 import ssr from "vite-plugin-ssr-config";
 
 export default defineConfig({
   base: "/myapp",
   plugins: [
     react(),
-    pages({
-      routeStyle: "remix", // Important: This enables Remix-style routing ($id instead of [id])
-      dirs: "ssr/pages",
+    web({
+      moduleFile: '.ssr/routes.tsx',
+      dirs:[{
+        dir:'ssr/pages',
+        route:''
+      }]
     }),
     ssr({
       rootDocument: "ssr/root.jsx",
@@ -324,8 +328,9 @@ The build will generate:
 ```
 /dist/
   ├── app.js           # Application runtime
-  ├── client/          # SSR public assets
-  └── client/spa/      # SPA public assets
+  ├── bin/             # SSR assets
+  ├── public/          # SPA-SSR assets
+  └── public/spa/      # SPA assets
 ```
 
 Enter the 'dist' directory and run the server
@@ -350,11 +355,11 @@ For production deployment, you can configure sanbox server settings using a priv
     "start": "node app.js"
   },
   "dependencies": {
-    "react": "^18.3.1",
+    "react": "^19.2.7",
     "react-bootstrap": "^2.10.7",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.2.7",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.28.0"
+    "react-router": "^7.17.0"
   }
 }
 ```

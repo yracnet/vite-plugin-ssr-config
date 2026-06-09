@@ -61,3 +61,18 @@ export const copyFilesDirectory = (
     }
   });
 };
+
+
+export const readManifest = (dir: string): any => {
+  const candidates = [
+    path.resolve(dir, ".vite/manifest.json"),
+    path.resolve(dir, "manifest.json"),
+  ];
+  const manifestFile = candidates.find((file) => fs.existsSync(file));
+  if (!manifestFile) {
+    throw new Error(
+      `manifest.json not found in:\n${candidates.join("\n")}`
+    );
+  }
+  return fs.readJsonSync(manifestFile);
+};

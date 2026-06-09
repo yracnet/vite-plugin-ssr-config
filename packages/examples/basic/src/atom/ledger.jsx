@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import reactLogo from "../assets/react.svg";
+import viteLogo from "../../public/vite.svg";
 import "../assets/root.css";
-import viteLogo from "/vite.svg";
 
 export const Ledger = () => {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
