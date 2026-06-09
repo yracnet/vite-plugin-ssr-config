@@ -10,11 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.3.1",
+    "react": "^19.2.7",
     "react-bootstrap": "^2.10.5",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.2.7",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.28.0",
+    "react-router": "^7.17.0",
+    "react-router-dom": "^7.17.0",
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
@@ -22,7 +23,7 @@
     "express": "^4.21.1",
     "vite": "^5.4.11",
     "vite-plugin-chunk-split": "^0.5.0",
-    "vite-plugin-pages": "^0.32.3",
-    "vite-plugin-ssr-config": "*"
+    "vite-plugin-ssr-config": "*",
+    "vite-plugin-web-routes": "^0.1.0"
   }
 }

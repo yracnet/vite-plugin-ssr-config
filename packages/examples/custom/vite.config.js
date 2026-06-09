@@ -1,6 +1,6 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import pages from "vite-plugin-pages";
+import web from "vite-plugin-web-routes";
 //import ssr from "vite-plugin-ssr-config";
 import ssr from "../../plugin/src";
 
@@ -20,9 +20,8 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    pages({
-      routeStyle: "remix",
-      dirs: "src/pages",
+    web({
+      moduleFile: ".ssr/routes.tsx",
     }),
     ssr({
       rootDocument: "src/root.jsx",

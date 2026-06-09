@@ -49,7 +49,11 @@ const renderDefault = async (request, response, next) => {
             callback(null, chunk);
           },
         });
-        response.setHeader("content-type", "text/html");
+        try {
+          response.setHeader("content-type", "text/html");
+        } catch (error) {
+          console.error("Set-Header Context-Type text/html Error:", error);
+        }
         transform.pipe(response);
         pipe(transform);
       },
