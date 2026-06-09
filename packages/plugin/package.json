@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-ssr-config",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "description": "A powerful Vite plugin designed to enable Server-Side Rendering (SSR) for React applications. It provides a comprehensive solution for bundling both SSR and CSR, with built-in support for React Router and React Query for efficient API handling and page rendering.",
   "keywords": [
@@ -43,7 +43,7 @@
     "fs-extra": "^11.2.0"
   },
   "peerDependencies": {
-    "vite": "^2 || ^3 || ^4 || ^5 || ^6"
+    "vite": ">=4.0.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

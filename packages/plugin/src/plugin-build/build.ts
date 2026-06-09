@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
-import { InlineConfig, ResolvedConfig, build, mergeConfig } from "vite";
-import { SSRConfig } from "../model";
+import { type InlineConfig, type ResolvedConfig, build, mergeConfig } from "vite";
+import type { SSRConfig } from "../model";
 import { finalUrl } from "../utils";
 
 export const doBuildServer = async (

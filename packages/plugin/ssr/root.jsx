@@ -1,6 +1,6 @@
 import { LiveReload } from "@ssr/liveReload.jsx";
 import { ViteScripts } from "@ssr/viteScripts.jsx";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 
 export const RootDocument = () => {
   return (

@@ -2,7 +2,7 @@ import { ErrorBoundary } from "@ssr/errorBoundary.jsx";
 import { RootRoutes } from "@ssr/rootRoutes.jsx";
 import { StrictMode, Suspense } from "react";
 import { dehydrate, QueryClient, QueryClientProvider } from "react-query";
-import { StaticRouter } from "react-router-dom/server";
+import { StaticRouter } from "react-router";
 
 export const PageServer = ({ path, hydratedState, setHydratedState }) => {
   const queryServer = new QueryClient({

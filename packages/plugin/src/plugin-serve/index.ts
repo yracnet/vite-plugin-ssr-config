@@ -1,8 +1,8 @@
 import fs from "fs-extra";
 import path from "path";
-import { PluginOption } from "vite";
-import { SSRConfig } from "../model.js";
-import { finalUrl } from "../utils.js";
+import type { PluginOption } from "vite";
+import type { SSRConfig } from "../model";
+import { finalUrl } from "../utils";
 
 export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
   const { entryClient, root } = ssrConfig;

@@ -1,18 +1,28 @@
 import { PageServer } from "@ssr/pageServer.jsx";
 import { StrictMode } from "react";
+import { Transform } from "stream";
 import { renderToPipeableStream } from "react-dom/server";
 
-const renderDefault = async (request, response, next) => {
-  let hydratedState = {};
-  const setHydratedState = (state) => {
-    hydratedState = state;
+const createRequestContext = () => {
+  return {
+    state: {},
+    setHydratedState(partial) {
+      this.state = {
+        ...this.state,
+        ...partial,
+      };
+    },
   };
+};
+
+const renderDefault = async (request, response, next) => {
+  const context = createRequestContext();
   const { pipe } = renderToPipeableStream(
     <StrictMode>
       <PageServer
         path={request.originalUrl}
         hydratedState={""} // Access is Not Allowed
-        setHydratedState={setHydratedState}
+        setHydratedState={context.setHydratedState.bind(context)}
       />
     </StrictMode>,
     {
@@ -22,13 +32,26 @@ const renderDefault = async (request, response, next) => {
       },
       onAllReady: () => {
         // console.log(request.originalUrl, "onAllReady");
+        let injected = false;
+        const transform = new Transform({
+          transform(chunk, encoding, callback) {
+            if (!injected) {
+              const stateScript = `<script>window.__HYDRATED_STATE__ = "${btoa(JSON.stringify(context.state))}";</script>`;
+              const str = chunk.toString();
+              const idx = str.lastIndexOf("</head>");
+              if (idx !== -1) {
+                injected = true;
+                const out = str.slice(0, idx) + stateScript + str.slice(idx);
+                callback(null, out);
+                return;
+              }
+            }
+            callback(null, chunk);
+          },
+        });
         response.setHeader("content-type", "text/html");
-        pipe(response);
-        response.write(
-          `<script>window.__HYDRATED_STATE__ = "${btoa(
-            JSON.stringify(hydratedState)
-          )}";</script>`
-        );
+        transform.pipe(response);
+        pipe(transform);
       },
       onShellError: (error) => {
         // console.log(request.originalUrl, "onShellError", error);
@@ -37,7 +60,7 @@ const renderDefault = async (request, response, next) => {
         // console.log(request.originalUrl, "onError", error, errorInfo);
         next(error);
       },
-    }
+    },
   );
 };
 

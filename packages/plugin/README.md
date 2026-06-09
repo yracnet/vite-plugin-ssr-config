@@ -16,18 +16,19 @@ For more detailed information and resources related to `vite-plugin-ssr-config`,
 To add this plugin to your project, run the following commands:
 
 ```bash
-yarn add vite-plugin-ssr-config vite-plugin-pages react-router-dom -D
+yarn add vite-plugin-ssr-config vite-plugin-web-routes -D
+```
+```bash
+yarn add react-query react-router express
 ```
 
 This will install:
 
 - vite-plugin-ssr-config: The plugin for server-side rendering (SSR) with Vite.
-- vite-plugin-pages: Automatically generate route files for your pages.
-- react-router-dom: The routing library for React, used to manage navigation within the app.
+- vite-plugin-web-routes: Automatically generate route files for your pages.
+- react-query: Delegate Hydrated State
+- react-router: The routing library for React, used to manage navigation within the app.
 
-```bash
-yarn add react-router-dom
-```
 
 ## Basic Configuration Example
 
@@ -36,11 +37,19 @@ To use the plugin, you need to integrate it with Vite’s `defineConfig` method 
 ```typescript
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import pages from "vite-plugin-pages";
+import web from "vite-plugin-web-routes";
 import ssr from "vite-plugin-ssr-config";
 
 export default defineConfig({
-  plugins: [react(), pages(), ssr()],
+  plugins: [
+    react(),
+    web({
+      moduleFile: '.ssr/routes.tsx'
+    }),
+    ssr({
+      chacheDir: '.ssr'
+    })
+  ],
 });
 ```
 
@@ -49,15 +58,6 @@ export default defineConfig({
 The following default values are provided for each configurable attribute in the plugin:
 
 ```typescript
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import pages from "vite-plugin-pages";
-import ssr from "vite-plugin-ssr-config";
-
-export default defineConfig({
-  plugins: [
-    react(),
-    pages(),
     ssr({
       root: process.cwd(), // Root directory, typically the project root.
 
@@ -92,9 +92,7 @@ export default defineConfig({
       // Config callbacks
       clientBuild: (config: UserConfig) => config, // Client-side Vite configuration.
       serverBuild: (config: UserConfig) => config, // Server-side Vite configuration.
-    }),
-  ],
-});
+    })
 ```
 
 > Important Note: PageServer uses `suspense: true` in all requests to ensure proper SSR rendering. On the other hand, PageBrowser uses `suspense: false` to allow smooth client-side navigation. This setup guarantees correct SSR rendering while preventing flickering and inconsistencies between the server-rendered content and the client-side state during hydration.

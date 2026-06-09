@@ -1,6 +1,6 @@
 import path from "path";
-import { PluginOption } from "vite";
-import { SSRConfig } from "../model.js";
+import type { PluginOption } from "vite";
+import type { SSRConfig } from "../model";
 
 export const pluginResolve = (ssrConfig: SSRConfig): PluginOption => {
   let {

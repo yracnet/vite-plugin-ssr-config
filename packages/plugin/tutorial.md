@@ -24,12 +24,12 @@ cd my-ssr-app
 Install the following dependencies:
 
 ```bash
-yarn add react-router-dom@^6.28.0 react-bootstrap react-query vite-plugin-ssr-config vite-plugin-pages
+yarn add react-router react-bootstrap react-query vite-plugin-ssr-config vite-plugin-pages
 ```
 
 Let's understand what each package does:
 
-- **react-router-dom@^6.28.0**: Handles routing in React applications. We use version 6.28.0 specifically because version 7.x requires Remix framework.
+- **react-router-dom**: Handles routing in React applications.
 
   - Provides components like `Route`, `Link`, and routing hooks
   - Enables client-side navigation

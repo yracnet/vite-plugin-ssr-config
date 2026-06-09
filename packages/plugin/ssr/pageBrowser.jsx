@@ -2,7 +2,7 @@ import { ErrorBoundary } from "@ssr/errorBoundary.jsx";
 import { RootRoutes } from "@ssr/rootRoutes.jsx";
 import { StrictMode, Suspense } from "react";
 import { QueryClient, QueryClientProvider, hydrate } from "react-query";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 
 const queryClient = new QueryClient({
   defaultOptions: {

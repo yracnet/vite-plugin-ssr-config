@@ -1,5 +1,5 @@
-import { PluginOption, ResolvedConfig } from "vite";
-import { SSRConfig } from "../model";
+import type { PluginOption, ResolvedConfig } from "vite";
+import type { SSRConfig } from "../model";
 import { cleanDirectory } from "../utils";
 import { doBuildClient, doBuildServer } from "./build";
 

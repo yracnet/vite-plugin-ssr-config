@@ -1,6 +1,6 @@
 import path from "path";
-import { PluginOption } from "vite";
-import { assertSSRConfig, SSROpts } from "./model.js";
+import type { PluginOption } from "vite";
+import { assertSSRConfig, type SSROpts } from "./model.js";
 import { pluginBuild } from "./plugin-build/index.js";
 import { pluginResolve } from "./plugin-resolve/index.js";
 import { pluginServe } from "./plugin-serve/index.js";
