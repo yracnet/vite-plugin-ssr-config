@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [
     react(),
     web({
-      moduleFile: '.ssr/routes.tsx'
+      moduleId: "ssr-pages",
     }),
     ssr({
       rootDocument: "src/root.jsx",

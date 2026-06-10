@@ -1,7 +1,7 @@
 import { RootDocument } from "@ssr/root.jsx";
 import React from "react";
 import { useRoutes } from "react-router";
-import routes from "./routes";
+import routes from "ssr-pages";
 
 export const RootRoutes = (props) => {
   const newRoutes = [

@@ -28,6 +28,6 @@
     "globals": "^15.14.0",
     "vite": "^5.0.0",
     "vite-plugin-ssr-config": "^1.0.3",
-    "vite-plugin-web-routes": "^0.1.0"
+    "vite-plugin-web-routes": "^0.1.2"
   }
 }

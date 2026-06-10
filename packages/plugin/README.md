@@ -44,7 +44,7 @@ export default defineConfig({
   plugins: [
     react(),
     web({
-      moduleFile: '.ssr/routes.tsx'
+      moduleId: 'ssr-pages'
     }),
     ssr({
       chacheDir: '.ssr'
@@ -52,6 +52,32 @@ export default defineConfig({
   ],
 });
 ```
+
+### Legacy project
+
+If you use the vite-plugin-pages, you need config the moduleId
+
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import pages from "vite-plugin-pages";
+import ssr from "vite-plugin-ssr-config";
+
+export default defineConfig({
+  plugins: [
+    react(),
+    pages({
+      moduleId: "ssr-pages",
+      routeStyle: "remix",
+      dirs: "src/pages",
+    }),
+    ssr({
+      chacheDir: '.ssr'
+    })
+  ],
+});
+```
+
 
 ## Default Configuration
 

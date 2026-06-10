@@ -243,7 +243,7 @@ export default defineConfig({
   plugins: [
     react(),
     web({
-      moduleFile: '.ssr/routes.tsx',
+      moduleId: "ssr-pages",
       dirs:[{
         dir:'ssr/pages',
         route:''
@@ -252,6 +252,39 @@ export default defineConfig({
     ssr({
       rootDocument: "ssr/root.jsx",
     }),
+  ],
+  build: {
+    rollupOptions: {
+      input: {
+        spa: "spa/index.html", // Include the original React SPA entry point
+      },
+    },
+  },
+});
+```
+
+### Legacy project
+
+If you use the vite-plugin-pages, you need config the moduleId
+
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import pages from "vite-plugin-pages";
+import ssr from "vite-plugin-ssr-config";
+
+export default defineConfig({
+  base: "/myapp",
+  plugins: [
+    react(),
+    pages({
+      moduleId: "ssr-pages",
+      routeStyle: "remix",
+      dirs: "ssr/pages",
+    }),
+    ssr({
+      rootDocument: "ssr/root.jsx",
+    })
   ],
   build: {
     rollupOptions: {

@@ -24,6 +24,6 @@
     "vite": "^5.4.11",
     "vite-plugin-chunk-split": "^0.5.0",
     "vite-plugin-ssr-config": "*",
-    "vite-plugin-web-routes": "^0.1.0"
+    "vite-plugin-web-routes": "^0.1.2"
   }
 }

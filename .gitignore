@@ -25,3 +25,4 @@ dist-ssr
 .yarn
 .ssr
 packages/**/*.tgz
+packages/examples/basic/.web/
