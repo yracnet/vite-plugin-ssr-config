@@ -1,33 +1,16 @@
 import { ErrorBoundary } from "@ssr/errorBoundary.jsx";
 import { RootRoutes } from "@ssr/rootRoutes.jsx";
-import { StrictMode, Suspense } from "react";
-import { QueryClient, QueryClientProvider, hydrate } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Suspense } from "react";
 import { BrowserRouter } from "react-router";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      suspense: false,
-    },
-  },
-});
-
-export const PageBrowser = ({ hydratedState = {}, setHydratedState }) => {
-  hydrate(queryClient, hydratedState);
+export const PageBrowser = ({ basename, queryClient }) => {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary suppressHydrationWarning={true}>
       <QueryClientProvider client={queryClient}>
         <Suspense>
-          <BrowserRouter
-            basename={process.env.SSR_BASENAME}
-            future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-          >
-            <StrictMode>
-              <RootRoutes
-                hydratedState={hydratedState}
-                setHydratedState={setHydratedState}
-              />
-            </StrictMode>
+          <BrowserRouter basename={basename}>
+            <RootRoutes />
           </BrowserRouter>
         </Suspense>
       </QueryClientProvider>

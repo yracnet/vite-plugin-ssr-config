@@ -1,18 +1,24 @@
-import { PageBrowser } from "@ssr/pageBrowser.jsx";
+import { QueryClient, hydrate } from "@tanstack/react-query";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { PageBrowser } from "./pageBrowser.jsx";
 
 startTransition(() => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        suspense: false,
+      },
+    },
+  });
   const hydratedState = JSON.parse(atob(window.__HYDRATED_STATE__));
-  const setHydratedState = () => {
-    throw Error("Changes Not Allowed");
-  };
+  hydrate(queryClient, hydratedState);
   hydrateRoot(
     document,
     <StrictMode>
       <PageBrowser
-        hydratedState={hydratedState}
-        setHydratedState={setHydratedState}
+        basename={process.env.SSR_BASENAME}
+        queryClient={queryClient}
       />
     </StrictMode>,
     {
@@ -20,6 +26,6 @@ startTransition(() => {
         const logs = componentStack?.split("\n");
         console.log("Error:", error, logs);
       },
-    }
+    },
   );
 });

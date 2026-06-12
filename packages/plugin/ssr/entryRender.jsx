@@ -1,7 +1,8 @@
-import { PageServer } from "@ssr/pageServer.jsx";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { StrictMode } from "react";
-import { Transform } from "stream";
 import { renderToPipeableStream } from "react-dom/server";
+import { Transform } from "stream";
+import { PageServer } from "./pageServer.jsx";
 
 const createRequestContext = () => {
   return {
@@ -16,13 +17,19 @@ const createRequestContext = () => {
 };
 
 const renderDefault = async (request, response, next) => {
-  const context = createRequestContext();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        suspense: true,
+      },
+    },
+  });
   const { pipe } = renderToPipeableStream(
     <StrictMode>
       <PageServer
-        path={request.originalUrl}
-        hydratedState={""} // Access is Not Allowed
-        setHydratedState={context.setHydratedState.bind(context)}
+        basename={process.env.SSR_BASENAME}
+        location={request.originalUrl}
+        queryClient={queryClient}
       />
     </StrictMode>,
     {
@@ -36,9 +43,10 @@ const renderDefault = async (request, response, next) => {
         const transform = new Transform({
           transform(chunk, encoding, callback) {
             if (!injected) {
-              const stateScript = `<script>window.__HYDRATED_STATE__ = "${btoa(JSON.stringify(context.state))}";</script>`;
+              const state = dehydrate(queryClient);
+              const stateScript = `\n<script>window.__HYDRATED_STATE__ = "${btoa(JSON.stringify(state))}";</script>\n`;
               const str = chunk.toString();
-              const idx = str.lastIndexOf("</head>");
+              const idx = str.lastIndexOf("</body>");
               if (idx !== -1) {
                 injected = true;
                 const out = str.slice(0, idx) + stateScript + str.slice(idx);
