@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router";
 import { withDelay, withSuspense } from "../../../hooks";
 

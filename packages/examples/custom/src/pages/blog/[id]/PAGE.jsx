@@ -1,5 +1,5 @@
 import { Card } from "react-bootstrap";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router";
 const getPost = (id) =>
   fetch("https://jsonplaceholder.typicode.com/posts/" + id).then((r) =>

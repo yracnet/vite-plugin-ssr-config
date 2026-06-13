@@ -1,6 +1,6 @@
 # vite-plugin-ssr-config
 
-[vite-plugin-ssr-config](https://github.com/yracnet/vite-plugin-ssr-config) configures server-side rendering (SSR) with Vite, providing essential setups and options for building both client and server bundles, along with necessary React components for SSR, specifically for [React](https://reactjs.org/ "react - A JavaScript library for building user interfaces"), [React Router](https://reactrouter.com/ "react-router - Declarative routing for React"), and [React Query](https://tanstack.com/query "react-query - Data fetching and caching library").
+[vite-plugin-ssr-config](https://github.com/yracnet/vite-plugin-ssr-config) configures server-side rendering (SSR) with Vite, providing essential setups and options for building both client and server bundles, along with necessary React components for SSR, specifically for [React](https://reactjs.org/ "react - A JavaScript library for building user interfaces"), [React Router](https://reactrouter.com/ "react-router - Declarative routing for React"), [React Query](https://tanstack.com/query "@tanstack/react-query - Data fetching and caching library"), and [react-slotx](https://github.com/react-slotx/react-slotx "react-slotx - Slot-based content management for React SSR").
 
 ## Additional Resources
 
@@ -10,6 +10,7 @@ For more detailed information and resources related to `vite-plugin-ssr-config`,
 - **GitHub Repository**: [yracnet/vite-plugin-ssr-config](https://github.com/yracnet/vite-plugin-ssr-config)
 - **Dev.to Article**: [Create an SSR Application with Vite, React, React Query and React Router](https://dev.to/yracnet/create-an-ssr-application-with-vite-react-react-query-and-react-router-2dd5)
 - **Tutorial**: [Tutorial](./tutorial.md)
+- **react-slotx Documentation**: [react-slotx GitHub](https://github.com/react-slotx/react-slotx)
 
 ## Install
 
@@ -19,15 +20,16 @@ To add this plugin to your project, run the following commands:
 yarn add vite-plugin-ssr-config vite-plugin-web-routes -D
 ```
 ```bash
-yarn add react-query react-router express
+yarn add @tanstack/react-query react-router express react-slotx
 ```
 
 This will install:
 
 - vite-plugin-ssr-config: The plugin for server-side rendering (SSR) with Vite.
 - vite-plugin-web-routes: Automatically generate route files for your pages.
-- react-query: Delegate Hydrated State
+- @tanstack/react-query: Delegate Hydrated State
 - react-router: The routing library for React, used to manage navigation within the app.
+- react-slotx: Slot-based content management system for SSR, enabling dynamic head and SEO optimization.
 
 
 ## Basic Configuration Example
@@ -266,3 +268,83 @@ These custom commands are designed to provide flexibility in your Vite SSR workf
 ## Use Case
 
 This plugin is intended for projects that require SSR with Vite, specifically React apps. It helps in managing SSR entry files, routing, page rendering, and output structure for both server and client builds.
+
+# SEO with react-slotx
+
+The plugin integrates [react-slotx](https://github.com/yracnet/react-slotx) for dynamic head content management. It lets any page component inject `<title>`, `<meta>`, and other head elements that are rendered server-side and kept reactive on the client.
+
+## How it works
+
+| Part | Import | Role |
+|---|---|---|
+| `Slot` | `react-slotx` | Register content into a named slot from any component |
+| `Outlet` | `react-slotx` | Render slot content at a specific location in the tree |
+| `SlotProvider` | `react-slotx` | Context provider — wraps the app (handled by the plugin) |
+| `SlotClient` | `react-slotx` | Client-side slot store (handled by the plugin) |
+| `SlotSSRClient` | `react-slotx/server` | Server-side slot store with `renderToString` (handled by the plugin) |
+
+The plugin's default `root.jsx` already places an `<Outlet name="head" />` inside `<head>`. You only need to use `<Slot>` in your pages.
+
+## Root document
+
+```jsx
+// ssr/root.jsx
+import { LiveReload } from "@ssr/liveReload.jsx";
+import { ViteScripts } from "@ssr/viteScripts.jsx";
+import { Outlet as OutletSlot } from "react-slotx";
+import { Outlet as OutletRoutes } from "react-router";
+
+export const RootDocument = () => {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <LiveReload />
+        <OutletSlot name="head" />
+      </head>
+      <body>
+        <OutletRoutes />
+        <ViteScripts />
+      </body>
+    </html>
+  );
+};
+```
+
+## Page usage
+
+```jsx
+import { Slot } from "react-slotx";
+
+export default function PostPage() {
+  const { data = {} } = useQuery(...);
+  return (
+    <>
+      <Slot name="head">
+        <title>{data.title} — My App</title>
+        <meta name="description" content={data.body} />
+        <meta property="og:title" content={data.title} />
+      </Slot>
+      {/* page content */}
+    </>
+  );
+}
+```
+
+The `<Slot name="head">` content is extracted server-side via `slotClient.renderToString("head")` and injected into the HTML stream before `</head>`. On the client it stays reactive through `<OutletSlot name="head" />`.
+
+## Slot props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `name` | `string` | `"default"` | Slot name — must match the `name` on `<Outlet>` |
+| `priority` | `number` | `1` | When multiple `<Slot>` share a name, the highest priority wins (in `"priority"` mode) |
+| `dangerouslyEnableRender` | `boolean` | `false` | Also render children in-place (not just in the outlet) |
+
+## Outlet props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `name` | `string \| "*"` | `"default"` | Which slot to render. `"*"` renders all slots |
+| `mode` | `"priority" \| "first" \| "last" \| "all"` | `"priority"` | How to resolve multiple slots with the same name |

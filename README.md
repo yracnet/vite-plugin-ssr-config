@@ -12,11 +12,34 @@ While the plugin is designed to be framework-agnostic, it comes preconfigured fo
 
 With built-in **React Query** support, you no longer need to manually define API endpoints in your server-side code. This feature simplifies server-side data fetching and eliminates the need for complex API configurations. You can rely on React Query to fetch and manage data on the client side, and let SSR handle the rendering seamlessly.
 
+## SEO Support with react-slotx
+
+The plugin integrates **react-slotx** for dynamic head content management. Any page component can use `<Slot name="head">` to register `<title>`, `<meta>`, Open Graph tags, or any other head elements. The root document renders them via `<Outlet name="head" />` — both server-side (injected into the HTML stream) and client-side (kept reactive during navigation).
+
+```jsx
+// In any page component
+import { Slot } from "react-slotx";
+
+export default function PostPage() {
+  return (
+    <>
+      <Slot name="head">
+        <title>My Post Title</title>
+        <meta name="description" content="Post description" />
+        <meta property="og:title" content="My Post Title" />
+      </Slot>
+      {/* page content */}
+    </>
+  );
+}
+```
+
 ## Key Features
 
 - SSR support with Vite
 - Configured for React and react-router-dom
 - Integrated support for React Query, simplifying data fetching on both the server and client
+- SEO optimization through react-slotx slot system for dynamic head content management
 - Easy configuration for other use cases or frameworks
 
 ## Overview
@@ -87,5 +110,5 @@ This app utilizes the following libraries:
 - **vite-plugin-pages**: A plugin for generating routes based on your file structure.
 - **react-router-dom**: A React library for handling routing and navigation.
 - **react-bootstrap**: Bootstrap components adapted for React.
-- **react-query**: A powerful library for data fetching, caching, and synchronization in React.
+- **@tanstack/react-query**: A powerful library for data fetching, caching, and synchronization in React.
 - **styled-components**: A library for writing CSS in JavaScript to style React components.

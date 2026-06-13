@@ -1,5 +1,5 @@
 import { Card, Col, Row } from "react-bootstrap";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 
 const getPosts = () =>
