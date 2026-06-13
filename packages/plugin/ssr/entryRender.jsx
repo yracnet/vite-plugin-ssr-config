@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 import { renderToPipeableStream } from "react-dom/server";
 import { Transform } from "stream";
 import { PageServer } from "./pageServer.jsx";
+import { SlotSSRClient } from "react-slotx/server";
 
 const createRequestContext = () => {
   return {
@@ -24,12 +25,14 @@ const renderDefault = async (request, response, next) => {
       },
     },
   });
+  const slotClient = new SlotSSRClient();
   const { pipe } = renderToPipeableStream(
     <StrictMode>
       <PageServer
         basename={process.env.SSR_BASENAME}
         location={request.originalUrl}
         queryClient={queryClient}
+        slotClient={slotClient}
       />
     </StrictMode>,
     {
@@ -40,16 +43,20 @@ const renderDefault = async (request, response, next) => {
       onAllReady: () => {
         // console.log(request.originalUrl, "onAllReady");
         let injected = false;
+        const state = dehydrate(queryClient);
+        const head = slotClient.renderToString("head");
+        const stateScript = `<script>window.__HYDRATED_STATE__ = "${btoa(JSON.stringify(state))}";</script>`;
+        const injectString = [" ", head, stateScript, " "]
+          .filter(Boolean)
+          .join("\n");
         const transform = new Transform({
           transform(chunk, encoding, callback) {
             if (!injected) {
-              const state = dehydrate(queryClient);
-              const stateScript = `\n<script>window.__HYDRATED_STATE__ = "${btoa(JSON.stringify(state))}";</script>\n`;
               const str = chunk.toString();
-              const idx = str.lastIndexOf("</body>");
+              const idx = str.lastIndexOf("</head>");
               if (idx !== -1) {
                 injected = true;
-                const out = str.slice(0, idx) + stateScript + str.slice(idx);
+                const out = str.slice(0, idx) + injectString + str.slice(idx);
                 callback(null, out);
                 return;
               }

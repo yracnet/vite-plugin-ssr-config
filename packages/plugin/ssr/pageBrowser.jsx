@@ -3,15 +3,18 @@ import { RootRoutes } from "@ssr/rootRoutes.jsx";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { BrowserRouter } from "react-router";
+import { SlotProvider } from "react-slotx";
 
-export const PageBrowser = ({ basename, queryClient }) => {
+export const PageBrowser = ({ basename, queryClient, slotClient }) => {
   return (
     <ErrorBoundary suppressHydrationWarning={true}>
       <QueryClientProvider client={queryClient}>
         <Suspense>
-          <BrowserRouter basename={basename}>
-            <RootRoutes />
-          </BrowserRouter>
+          <SlotProvider client={slotClient}>
+            <BrowserRouter basename={basename}>
+              <RootRoutes />
+            </BrowserRouter>
+          </SlotProvider>
         </Suspense>
       </QueryClientProvider>
     </ErrorBoundary>

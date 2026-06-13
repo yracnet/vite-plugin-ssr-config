@@ -1,6 +1,7 @@
 import { LiveReload } from "@ssr/liveReload.jsx";
 import { ViteScripts } from "@ssr/viteScripts.jsx";
-import { Outlet } from "react-router";
+import { Outlet as OutletInsert } from "react-slotx";
+import { Outlet as OutletRoutes } from "react-router";
 
 export const RootDocument = () => {
   return (
@@ -8,12 +9,11 @@ export const RootDocument = () => {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vite + React SSR</title>
-        <link rel="icon" href="vite.svg" type="image/svg" />
         <LiveReload />
+        <OutletInsert name="head"/>
       </head>
       <body>
-        <Outlet />
+        <OutletRoutes />
         <ViteScripts />
       </body>
     </html>

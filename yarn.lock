@@ -2604,6 +2604,11 @@ react-router@7.17.0, react-router@^7.17.0:
     cookie "^1.0.1"
     set-cookie-parser "^2.6.0"
 
+react-slotx@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-slotx/-/react-slotx-0.1.0.tgz#86e1df111dfd3c15951d163cf480ef7631af0c83"
+  integrity sha512-T8eDoZOMiMbUDyD+fmLq77jNzXyvSJ9KiWH01POYrKUMG/N6WJORMO43xMbjL6Us2KtFZeWQxjtjuD0iAHD0ZQ==
+
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
@@ -3157,13 +3162,6 @@ vite-plugin-chunk-split@^0.5.0:
     es-module-lexer "^1.4.1"
     import-meta-resolve "^4.0.0"
     magic-string "^0.30.5"
-
-vite-plugin-web-routes@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/vite-plugin-web-routes/-/vite-plugin-web-routes-0.1.0.tgz#eb163850503f64bfd8703b4aca1b6796663cca87"
-  integrity sha512-NQBMXXgfm+HEMUpMAelkd7j1JrROz7a2rmdhIdEFdFPgy2kPei9+wrVQYVPkXJlrsndZ3BTvSlcZUQppRJW0OA==
-  dependencies:
-    tsup "^8.5.1"
 
 vite-plugin-web-routes@^0.1.2:
   version "0.1.2"
