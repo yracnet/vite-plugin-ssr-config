@@ -1,8 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import web from "vite-plugin-web-routes";
-//import ssr from "vite-plugin-ssr-config";
-import ssr from "../../plugin/src";
+import ssr from "vite-plugin-ssr-config";
 
 export default defineConfig({
   base: "/myapp",
@@ -16,7 +15,7 @@ export default defineConfig({
       }]
     }),
     ssr({
-      rootDocument: "ssr/root.jsx",
+      rootDocument: './ssr/root.jsx'
     }),
   ],
   build: {

@@ -11,23 +11,24 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.0",
-    "react": "^19.2.7",
-    "react-bootstrap": "^2.10.7",
-    "react-dom": "^19.2.7",
-    "react-router": "^7.17.0"
+    "express": "^5.2.1",
+    "react": "^19.2.6",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.2.6",
+    "react-router": "^7.17.0",
+    "react-slotx": "^0.1.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.17.0",
-    "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.16",
-    "globals": "^15.14.0",
-    "vite": "^5.0.0",
-    "vite-plugin-ssr-config": "^1.0.3",
-    "vite-plugin-web-routes": "^0.1.2"
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "vite": "^8.0.12",
+    "vite-plugin-ssr-config": "*",
+    "vite-plugin-web-routes": "^0.1.3"
   }
 }

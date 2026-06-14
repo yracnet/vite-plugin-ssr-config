@@ -24,7 +24,7 @@ cd my-ssr-app
 Install the following dependencies:
 
 ```bash
-yarn add react-router react-bootstrap @tanstack/react-query react-slotx
+yarn add react-router react-bootstrap @tanstack/react-query react-slotx express
 yarn add -D vite-plugin-ssr-config vite-plugin-web-routes
 ```
 
@@ -65,6 +65,8 @@ Let's understand what each package does:
   - Supports dynamic routes
   - Integrates with react-router-dom
 
+- **express**: Server.
+
 ## 3. Configure Project Structure
 
 ### 3.1 Move the Index File
@@ -86,7 +88,158 @@ Create the necessary directories for SSR:
 mkdir -p ssr/pages/posts/[id]
 ```
 
-## 4. Create the Root Document
+## 4. Create Application Pages
+
+### 4.1 Layout Page
+
+Create `/ssr/pages/LAYOUT.jsx`:
+
+```jsx
+import { Slot } from "react-slotx";
+import { Container, Navbar, Nav } from "react-bootstrap";
+import { Link, Outlet } from "react-router";
+
+export default function Layout() {
+  return (
+    <>
+      <Slot name="head">
+        <title>Vite SSR App Template</title>
+      </Slot>
+      <Container>
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand href="/myapp/">Vite SSR</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarNav" />
+          <Navbar.Collapse id="navbarNav">
+            <Nav className="me-auto">
+              <Nav.Link to="/" as={Link}>
+                Home
+              </Nav.Link>
+              <Nav.Link to="/posts" as={Link}>
+                Posts
+              </Nav.Link>
+              <Nav.Link href="/myapp/spa">Vite SPA Entry</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </Container>
+      <Container>
+        <Outlet />
+      </Container>
+    </>
+  );
+}
+```
+
+### 4.2 Home Page
+
+Create `/ssr/pages/PAGE.jsx`:
+
+```jsx
+import { Slot } from "react-slotx";
+import { Container, Button } from "react-bootstrap";
+import { Link } from "react-router";
+
+export default function HomePage() {
+  return (
+    <Container>
+      <h1>Welcome to the Vite + React SSR App</h1>
+      <Button as={Link} to="/posts">
+        Go to Posts
+      </Button>
+      <Slot name="head">
+        <title>Home — Vite SSR App</title>
+        <meta name="description" content="Welcome to the Vite + React SSR App" />
+      </Slot>
+    </Container>
+  );
+}
+```
+
+### 4.3 Posts List Page
+
+Create `/ssr/pages/posts/PAGE.jsx`:
+
+```jsx
+import { Slot } from "react-slotx";
+import { Card, Col, Row } from "react-bootstrap";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
+
+const getPosts = () =>
+  fetch("https://jsonplaceholder.typicode.com/posts").then((r) => r.json());
+
+export default function PostsPage() {
+  const { data = [] } = useQuery({
+    queryKey: ["posts"],
+    queryFn: getPosts,
+  });
+  return (
+    <div>
+      <Row>
+        {data.map((post) => (
+          <Col key={post.id} sm={12} md={6} lg={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{post.title}</Card.Title>
+                <Card.Text>{post.body}</Card.Text>
+                <Card.Link as={Link} to={`/posts/${post.id}`}>
+                  Read More
+                </Card.Link>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+      <Slot name="head" priority={2}>
+        {/* title support only string */}
+        <title>{`Post List ${data.length} Rows`}</title>
+      </Slot>
+    </div>
+  );
+}
+```
+
+### 4.4 Single Post Page
+
+Create `/ssr/pages/posts/[id]/PAGE.jsx`:
+
+```jsx
+import { Slot } from "react-slotx";
+import { Card } from "react-bootstrap";
+import { useQuery } from "@tanstack/react-query";
+import { Link, useParams } from "react-router";
+
+const getPost = (id) =>
+  fetch("https://jsonplaceholder.typicode.com/posts/" + id).then((r) =>
+    r.json(),
+  );
+
+export default function PostPage() {
+  const { id } = useParams();
+  const { data = [] } = useQuery({
+    queryKey: ["posts", id],
+    queryFn: () => getPost(id),
+  });
+  return (
+    <Card>
+      <Slot name="head" priority={2}>
+        {/* title support only string */}
+        <title>{`Post #${id}: ${data.title}`}</title>
+        <meta name="description" content={data.body} />
+        <meta property="og:title" content={data.title} />
+      </Slot>
+      <Card.Header>{data.title}</Card.Header>
+      <Card.Body>
+        <Card.Text>{data.body}</Card.Text>
+        <Card.Link as={Link} to="/posts">
+          Back to Posts
+        </Card.Link>
+      </Card.Body>
+    </Card>
+  );
+}
+```
+## 4.5 Create the Root Document
 
 Create `/ssr/root.jsx` to define the root document structure for server-side rendering:
 
@@ -110,28 +263,10 @@ export const RootDocument = () => {
         />
         <LiveReload />
         <OutletSlot name="head" />
+        {/** see .ssr/entryRender.jsx for check was inject slot in SSR */}
       </head>
       <body>
-        <Container>
-          <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="/myapp/">Vite SSR</Navbar.Brand>
-            <Navbar.Toggle aria-controls="navbarNav" />
-            <Navbar.Collapse id="navbarNav">
-              <Nav className="me-auto">
-                <Nav.Link to="/" as={Link}>
-                  Home
-                </Nav.Link>
-                <Nav.Link to="/posts" as={Link}>
-                  Posts
-                </Nav.Link>
-                <Nav.Link href="/myapp/spa">Vite SPA Entry</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar>
-        </Container>
-        <Container>
-          <OutletRoutes />
-        </Container>
+        <OutletRoutes />
         <ViteScripts />
       </body>
     </html>
@@ -139,179 +274,7 @@ export const RootDocument = () => {
 };
 ```
 
-The `<OutletSlot name="head" />` renders whatever content any page registers into the `"head"` slot via `react-slotx`. This is how pages inject dynamic `<title>`, `<meta>`, and other head tags without touching the root document directly.
-
-> Important Note: PageServer uses `suspense: true` in all requests to ensure proper SSR rendering. On the other hand, PageBrowser uses `suspense: false` to allow smooth client-side navigation. This setup guarantees correct SSR rendering while preventing flickering and inconsistencies between the server-rendered content and the client-side state during hydration.
-
-## 5. Create Application Pages
-
-### 5.1 Home Page
-
-Create `/ssr/pages/PAGE.jsx`:
-
-```jsx
-import { Container, Button } from "react-bootstrap";
-import { Link } from "react-router";
-
-export default function HomePage() {
-  return (
-    <Container>
-      <h1>Welcome to the Vite + React SSR App</h1>
-      <Button as={Link} to="/posts">
-        Go to Posts
-      </Button>
-    </Container>
-  );
-}
-```
-
-### 5.2 Posts List Page
-
-Create `/ssr/pages/posts/PAGE.jsx`:
-
-```jsx
-import { Card, Col, Row } from "react-bootstrap";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router";
-
-const getPosts = () =>
-  fetch("https://jsonplaceholder.typicode.com/posts")
-    .then((r) => r.json())
-    .catch((e) => {
-      throw e;
-    });
-
-export default function PostsPage() {
-  const { data = [] } = useQuery("posts", getPosts);
-  return (
-    <div>
-      <Row>
-        {data.map((post) => (
-          <Col key={post.id} sm={12} md={6} lg={4} className="mb-4">
-            <Card>
-              <Card.Body>
-                <Card.Title>{post.title}</Card.Title>
-                <Card.Text>{post.body}</Card.Text>
-                <Card.Link as={Link} to={`/posts/${post.id}`}>
-                  Read More
-                </Card.Link>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
-  );
-}
-```
-
-### 5.3 Single Post Page
-
-Create `/ssr/pages/posts/[id]/PAGE.jsx`:
-
-```jsx
-import { Card } from "react-bootstrap";
-import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router";
-
-const getPost = (id) =>
-  fetch("https://jsonplaceholder.typicode.com/posts/" + id)
-    .then((r) => r.json())
-    .catch((e) => {
-      throw e;
-    });
-
-export default function PostPage() {
-  const { id } = useParams();
-  const { data = {} } = useQuery(["posts", id], () => getPost(id));
-  return (
-    <Card>
-      <Card.Header>{data.title}</Card.Header>
-      <Card.Body>
-        <Card.Text>{data.body}</Card.Text>
-        <Card.Link as={Link} to="/posts">
-          Back to Posts
-        </Card.Link>
-      </Card.Body>
-    </Card>
-  );
-}
-```
-
-For dynamic SEO on this page (dynamic `<title>`, `<meta>` tags), see [Section 6](#6-add-seo-with-react-slotx).
-
-## 6. Add SEO with react-slotx
-
-Each page can inject content into the `<head>` by using the `<Slot>` component from `react-slotx`. The root document's `<OutletSlot name="head" />` then renders that content, both on the server and the client.
-
-### 6.1 Home Page with SEO
-
-```jsx
-import { Slot } from "react-slotx";
-import { Container, Button } from "react-bootstrap";
-import { Link } from "react-router";
-
-export default function HomePage() {
-  return (
-    <>
-      <Slot name="head">
-        <title>Home — Vite SSR App</title>
-        <meta name="description" content="Welcome to the Vite + React SSR App" />
-      </Slot>
-      <Container>
-        <h1>Welcome to the Vite + React SSR App</h1>
-        <Button as={Link} to="/posts">
-          Go to Posts
-        </Button>
-      </Container>
-    </>
-  );
-}
-```
-
-### 6.2 Single Post Page with dynamic SEO
-
-```jsx
-import { Slot } from "react-slotx";
-import { Card } from "react-bootstrap";
-import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router";
-
-const getPost = (id) =>
-  fetch("https://jsonplaceholder.typicode.com/posts/" + id)
-    .then((r) => r.json());
-
-export default function PostPage() {
-  const { id } = useParams();
-  const { data = {} } = useQuery(["posts", id], () => getPost(id));
-  return (
-    <>
-      <Slot name="head">
-        <title>{data.title} — Vite SSR App</title>
-        <meta name="description" content={data.body} />
-        <meta property="og:title" content={data.title} />
-      </Slot>
-      <Card>
-        <Card.Header>{data.title}</Card.Header>
-        <Card.Body>
-          <Card.Text>{data.body}</Card.Text>
-          <Card.Link as={Link} to="/posts">
-            Back to Posts
-          </Card.Link>
-        </Card.Body>
-      </Card>
-    </>
-  );
-}
-```
-
-The `<Slot name="head">` content is:
-- **Server**: extracted by `slotClient.renderToString("head")` and injected into the HTML stream before `</head>`.
-- **Client**: rendered reactively via `<OutletSlot name="head" />` during hydration and navigation.
-
-No extra configuration is needed — the plugin's `entryRender.jsx` and `entryClient.jsx` handle both sides automatically.
-
-## 7. Configure Vite
+## 5. Configure Vite
 
 Modify the existing `vite.config.js` file:
 
@@ -333,7 +296,7 @@ export default defineConfig({
       }]
     }),
     ssr({
-      rootDocument: "ssr/root.jsx",
+      rootDocument: './ssr/root.jsx'
     }),
   ],
   build: {
@@ -360,6 +323,7 @@ export default defineConfig({
   base: "/myapp",
   plugins: [
     react(),
+    // Don't support LAYOUT, Include the Main Layout in root.jsx
     pages({
       moduleId: "ssr-pages",
       routeStyle: "remix",
@@ -379,9 +343,9 @@ export default defineConfig({
 });
 ```
 
-## 8. Development and Production
+## 7. Development and Production
 
-### 8.1 Development Server
+### 7.1 Development Server
 
 Run the development server:
 
@@ -394,7 +358,7 @@ Access your application at:
 - SSR version: `http://localhost:5173/myapp`
 - SPA version: `http://localhost:5173/myapp/spa`
 
-### 8.2 Production Build
+### 7.2 Production Build
 
 Build the application:
 
@@ -456,7 +420,7 @@ cd dist
 node app.js
 ```
 
-### 8.3 Sandbox Production Server Configuration
+### 7.3 Sandbox Production Server Configuration
 
 For production deployment, you can configure sanbox server settings using a private directory:
 
@@ -471,11 +435,14 @@ For production deployment, you can configure sanbox server settings using a priv
     "start": "node app.js"
   },
   "dependencies": {
-    "react": "^19.2.7",
-    "react-bootstrap": "^2.10.7",
-    "react-dom": "^19.2.7",
-    "@tanstack/react-query": "^3.39.3",
-    "react-router": "^7.17.0"
+    // Chech the version
+    "@tanstack/react-query": "^5.101.0",
+    "express": "^5.2.1",
+    "react": "^19.2.6",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.2.6",
+    "react-router": "^7.17.0",
+    "react-slotx": "^0.1.1"
   }
 }
 ```
@@ -506,6 +473,8 @@ For more detailed information and resources related to `vite-plugin-ssr-config`,
 
 - For a complete working example, visit the [GitHub example repository](https://github.com/yracnet/vite-plugin-ssr-config/tree/main/packages/examples/my-ssr-app) and check the `packages/examples/my-ssr-app` directory.
 - For more information about the SSR plugin, refer to the [vite-plugin-ssr-config documentation](https://github.com/yracnet/vite-plugin-ssr-config/tree/main/packages/plugin).
+- For more information about the WEB routes, refer to the [vite-plugin-web-routes documentation](https://github.com/yracnet/vite-plugin-web-routes).
+- For more information about the SLOT, refer to the [react-slotx documentation](https://github.com/yracnet/react-slotx).
 
 ## Summary
 

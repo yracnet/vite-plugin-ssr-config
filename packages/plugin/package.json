@@ -35,29 +35,30 @@
   "homepage": "https://github.com/yracnet/vite-plugin-ssr-config",
   "bugs": "https://github.com/yracnet/vite-plugin-ssr-config/issues",
   "scripts": {
+    "dev": "tsup --watch",
     "build": "tsup",
     "prepublish": "yarn build",
     "prepack": "yarn build"
   },
   "dependencies": {
-    "dotenv-local": "^1.0.2",
-    "fs-extra": "^11.2.0",
+    "fs-extra": "^11.3.5",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router": "^7.17.0",
-    "react-router-dom": "^7.17.0",
-    "react-slotx": "^0.1.0"
+    "react-router-dom": "^7.17.0"
   },
   "peerDependencies": {
+    "dotenv-local": "^1.0.3",
+    "react-slotx": "^0.1.1",
     "vite": ">=4.0.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
+    "@types/express": "^5.0.6",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.10.2",
-    "express": "^4.21.2",
-    "tsup": "^8.3.5",
-    "typescript": "^5.7.2",
-    "vite": "^4.0.0"
+    "@types/node": "^25.9.3",
+    "express": "^5.2.1",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16"
   }
 }

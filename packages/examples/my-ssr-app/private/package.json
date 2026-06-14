@@ -7,10 +7,11 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.0",
-    "react": "^19.2.7",
-    "express": "^4.21.1",
-    "react-bootstrap": "^2.10.7",
-    "react-dom": "^19.2.7",
-    "react-router": "^7.17.0"
+    "express": "^5.2.1",
+    "react": "^19.2.6",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.2.6",
+    "react-router": "^7.17.0",
+    "react-slotx": "^0.1.1"
   }
 }

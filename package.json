@@ -8,6 +8,7 @@
   "workspaces": [
     "packages/plugin",
     "packages/examples/basic",
-    "packages/examples/custom"
+    "packages/examples/custom",
+    "packages/examples/my-ssr-app"
   ]
 }

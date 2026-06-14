@@ -1,21 +1,18 @@
-import { Button, ButtonGroup } from "react-bootstrap";
+import { Slot } from "react-slotx";
+import { Container, Button } from "react-bootstrap";
 import { Link } from "react-router";
 
-const Index = () => (
-  <div>
-    <h2>Bienvenido al Blog</h2>
-    <ButtonGroup>
-      <Button as={Link} to="/posts" variant="outline-primary">
-        Ver Posts
+export default function HomePage() {
+  return (
+    <Container>
+      <h1>Welcome to the Vite + React SSR App</h1>
+      <Button as={Link} to="/posts">
+        Go to Posts
       </Button>
-      <Button as={Link} to="/error" variant="outline-danger">
-        Ver Error
-      </Button>
-      <Button as="a" href="/spa" variant="outline-success">
-        Ir SPA
-      </Button>
-    </ButtonGroup>
-  </div>
-);
-
-export default Index;
+      <Slot name="head" priority={2}>
+        <title>Home — Vite SSR App</title>
+        <meta name="description" content="Welcome to the Vite + React SSR App" />
+      </Slot>
+    </Container>
+  );
+}
