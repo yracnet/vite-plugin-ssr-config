@@ -322,7 +322,8 @@ export default function PostPage() {
   return (
     <>
       <Slot name="head">
-        <title>{data.title} — My App</title>
+        {/* title support only string content */}
+        <title>{`${data.title} — My App`}</title>
         <meta name="description" content={data.body} />
         <meta property="og:title" content={data.title} />
       </Slot>
