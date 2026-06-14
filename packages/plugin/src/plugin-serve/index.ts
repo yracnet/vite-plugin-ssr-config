@@ -1,8 +1,10 @@
+import express from "express";
 import fs from "fs-extra";
 import path from "path";
 import type { PluginOption } from "vite";
 import type { SSRConfig } from "../model";
 import { finalUrl } from "../utils";
+
 
 export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
   const { entryClient, root } = ssrConfig;
@@ -21,37 +23,43 @@ export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
       };
     },
     configureServer: async (devServer) => {
-      return async () => {
-        // HTML Serve
-        devServer.middlewares.use(async (req: any, res, next) => {
-          const indexHtmlPath = path.join(root, req.url, "index.html");
-          if (fs.existsSync(indexHtmlPath)) {
-            return devServer
-              .transformIndexHtml(
-                req.url,
-                fs.readFileSync(indexHtmlPath, "utf-8")
-              )
-              .then((html) => {
-                res.setHeader("Content-Type", "text/html");
-                res.setHeader("Pragma", "no-cache");
-                res.setHeader("Expires", "0");
-                res.end(html);
-              });
-          }
-          next();
-        });
-        devServer.middlewares.use(async (req, res, next) => {
-          try {
-            //@ts-ignore
-            process.env.SSR = true;
-            const mod = await devServer.ssrLoadModule("@ssr/handler.js", {
-              fixStacktrace: true,
+      const appProxy = express();
+      appProxy.use(async (req, res, next) => {
+        if (req.method !== "GET") {
+          return next();
+        }
+        const indexHtmlPath = path.join(root, req.url, "index.html");
+        if (fs.existsSync(indexHtmlPath)) {
+          return devServer
+            .transformIndexHtml(
+              req.url,
+              fs.readFileSync(indexHtmlPath, "utf-8")
+            )
+            .then((html) => {
+              res.setHeader("Content-Type", "text/html");
+              res.setHeader("Pragma", "no-cache");
+              res.setHeader("Expires", "0");
+              res.end(html);
             });
-            await mod.handler(req, res, next);
-          } catch (error) {
-            next(error);
-          }
-        });
+        }
+        next();
+      })
+      appProxy.use(async (req, res, next) => {
+        try {
+          const mod = await devServer.ssrLoadModule("@ssr/handler.js", {
+            fixStacktrace: true,
+          });
+          await mod.handler(req, res, next);
+        } catch (error) {
+          devServer.ssrFixStacktrace(error as Error);
+          process.exitCode = 1;
+          next(error);
+        }
+      });
+      return () => {
+        //@ts-ignore
+        process.env.SSR = true;
+        devServer.middlewares.use(appProxy);
       };
     },
   };

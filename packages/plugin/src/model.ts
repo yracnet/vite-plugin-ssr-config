@@ -2,6 +2,7 @@ import type { UserConfig } from "vite";
 
 export type SSRConfig = {
   root: string;
+  version: "1.0" | "1.1";
 
   entryClient: string;
   entryRender: string;
@@ -33,6 +34,7 @@ export type SSROpts = Partial<SSRConfig>;
 export const assertSSRConfig = (ssrOpts: SSROpts = {}): SSRConfig => {
   let {
     root = process.cwd(),
+    version = "1.1",
     disableBuild = false,
     //Main Entry
     entryClient = ".ssr/entryClient.jsx",
@@ -59,6 +61,7 @@ export const assertSSRConfig = (ssrOpts: SSROpts = {}): SSRConfig => {
   } = ssrOpts;
   return {
     root,
+    version,
     disableBuild,
 
     entryClient,

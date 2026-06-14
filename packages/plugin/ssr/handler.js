@@ -1,8 +1,14 @@
+import express from "express";
 import { render } from "@ssr/entryRender.jsx";
 
+const ignored = [
+  /^\/%3Canonymous%20code%3E$/,
+  /\.js\.map$/,
+  /\.css\.map$/,
+];
+
 export const handler = async (req, res, next) => {
-  //Force Fix
-  if (req.url === "/%3Canonymous%20code%3E" || req.url.endsWith(".js.map")) {
+  if (req.method !== "GET" || ignored.some((pattern) => pattern.test(req.path))) {
     return next();
   }
   try {

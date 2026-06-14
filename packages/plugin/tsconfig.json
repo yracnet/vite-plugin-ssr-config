@@ -13,8 +13,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "noUnusedParameters": true,
-    "baseUrl": ".",
+    "noUnusedParameters": true
   },
   "include": [
     "src/**/*",

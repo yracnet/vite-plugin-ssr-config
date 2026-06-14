@@ -5,18 +5,6 @@ import { Transform } from "stream";
 import { PageServer } from "./pageServer.jsx";
 import { SlotSSRClient } from "react-slotx/server";
 
-const createRequestContext = () => {
-  return {
-    state: {},
-    setHydratedState(partial) {
-      this.state = {
-        ...this.state,
-        ...partial,
-      };
-    },
-  };
-};
-
 const renderDefault = async (request, response, next) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -44,10 +32,9 @@ const renderDefault = async (request, response, next) => {
         // console.log(request.originalUrl, "onAllReady");
         let injected = false;
         const state = dehydrate(queryClient);
-        const head = slotClient.renderToString("head");
+        const headTags = slotClient.renderToString("head");
         const stateScript = `<script>window.__HYDRATED_STATE__ = "${btoa(JSON.stringify(state))}";</script>`;
-        const injectString = [" ", head, stateScript, " "]
-          .filter(Boolean)
+        const injectString = ["", headTags, stateScript, ""]
           .join("\n");
         const transform = new Transform({
           transform(chunk, encoding, callback) {
@@ -64,11 +51,7 @@ const renderDefault = async (request, response, next) => {
             callback(null, chunk);
           },
         });
-        try {
-          response.setHeader("content-type", "text/html");
-        } catch (error) {
-          console.error("Set-Header Context-Type text/html Error:", error);
-        }
+        response.setHeader("content-type", "text/html");
         transform.pipe(response);
         pipe(transform);
       },
