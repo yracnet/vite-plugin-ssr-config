@@ -48,6 +48,13 @@ Let's understand what each package does:
   - Provides hooks for data fetching, caching, and updates
   - Handles loading and error states automatically
 
+- **react-error-boundary**: Error Fallback for handling errors in SSR rendering.
+
+  - Provides ErrorBoundary component to catch rendering errors
+  - Supports custom fallback UI via fallbackRender prop
+  - Integrates with the SSR error fallback system
+  - Enables retry functionality for error recovery
+
 - **react-slotx**: Slot-based content management system for SSR and SEO.
 
   - Manages dynamic content injection through slots

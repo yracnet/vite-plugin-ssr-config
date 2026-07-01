@@ -1,5 +1,5 @@
 import { HydrationBoundary, QueryClientProvider } from "@tanstack/react-query";
-import { ErrorBoundary, getErrorMessage } from "react-error-boundary";
+import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "./errorFallback.jsx";
 import { SlotProvider } from "react-slotx";
 

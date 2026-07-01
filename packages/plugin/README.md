@@ -88,28 +88,30 @@ The following default values are provided for each configurable attribute in the
 ```typescript
     ssr({
       root: process.cwd(), // Root directory, typically the project root.
+      cacheDir: ".ssr",    // Cache directory.
 
       // React-related files
-      entryClient: ".ssr/entryClient.jsx", // Entry point for the client-side app.
-      entryRender: ".ssr/entryRender.jsx", // Entry point for the server-side app.
-      rootDocument: ".ssr/root.jsx", // Root document for React SSR.
+      entryClient: "[cacheDir]/entryClient.jsx", // Entry point for the client-side app.
+      entryRender: "[cacheDir]/entryRender.jsx", // Entry point for the server-side app.
+      rootDocument: "[cacheDir]/root.jsx", // Root document for React SSR.
+      appShell: "[cacheDir]/appShell.jsx", // AppShell with ErrorBoundary, QueryClient, SlotProvider.
 
       // Server-side files
-      server: ".ssr/server.js", // Main server file.
-      handler: ".ssr/handler.js", // Request handler for SSR.
+      server: "[cacheDir]/server.js", // Main server file.
+      handler: "[cacheDir]/handler.js", // Request handler for SSR.
 
       // React SSR-specific files
-      pageServer: ".ssr/pageServer.jsx", // Server-side page rendering.
-      pageBrowser: ".ssr/pageBrowser.jsx", // Browser-side page rendering.
-      rootRoutes: ".ssr/rootRoutes.jsx", // Root routes for SSR.
-      errorFallback: ".ssr/errorFallback.jsx", // Error Fallback for SSR rendering.
+      pageServer: "[cacheDir]/pageServer.jsx", // Server-side page rendering.
+      pageBrowser: "[cacheDir]/pageBrowser.jsx", // Browser-side page rendering.
+      rootRoutes: "[cacheDir]/rootRoutes.jsx", // Root routes for SSR.
+      errorFallback: "[cacheDir]/errorFallback.jsx", // Error Fallback for SSR rendering.
 
       // Scripts
-      liveReload: ".ssr/liveReload.jsx", // Script for live reloading.
-      viteScripts: ".ssr/viteScripts.jsx", // Vite-related scripts.
+      liveReload: "[cacheDir]/liveReload.jsx", // Script for live reloading.
+      viteScripts: "[cacheDir]/viteScripts.jsx", // Vite-related scripts.
 
       // Output directories
-      clientOutDir: "dist/client", // Client-side output directory.
+      clientOutDir: "dist/public", // Client-side output directory.
       serverOutDir: "dist", // Server-side output directory.
 
       // Build options
@@ -137,13 +139,21 @@ ssr({
 
 This allows you to tailor the plugin to your project’s specific needs, including modifying file paths and directories for SSR output, live reload functionality, and more.
 
-# Configuration Options
+## Configuration Options
 
 Here are all the configurable options available with `vite-plugin-ssr-config`:
 
 ### `root` (string)
 
 The root directory of your project. Defaults to the current working directory (`process.cwd()`).
+
+### `cacheDir` (string)
+
+The directory where the plugin's SSR template files are copied and resolved. Defaults to `.ssr`. All SSR file paths use this as base.
+
+### `appShell` (string)
+
+The AppShell component that wraps the application with providers (`ErrorBoundary`, `QueryClientProvider`, `HydrationBoundary`, `SlotProvider`). Defaults to `.ssr/appShell.jsx`.
 
 ### `entryClient` (string)
 
@@ -217,7 +227,7 @@ A callback to customize the client-side Vite build configuration. Defaults to an
 
 A callback to customize the server-side Vite build configuration. Defaults to an identity function `(config) => config`.
 
-# Execution and Compilation
+## Execution and Compilation
 
 The following commands are available in the `package.json` file to manage development, builds, and previewing your Vite project with SSR. These commands utilize custom build modes, providing flexibility in how the project is built for SSR (Server-Side Rendering) and client-side code.
 
@@ -269,7 +279,7 @@ These custom commands are designed to provide flexibility in your Vite SSR workf
 
 This plugin is intended for projects that require SSR with Vite, specifically React apps. It helps in managing SSR entry files, routing, page rendering, and output structure for both server and client builds.
 
-# SEO with react-slotx
+## SEO with react-slotx
 
 The plugin integrates [react-slotx](https://github.com/yracnet/react-slotx) for dynamic head content management. It lets any page component inject `<title>`, `<meta>`, and other head elements that are rendered server-side and kept reactive on the client.
 
@@ -319,11 +329,12 @@ import { Slot } from "react-slotx";
 
 export default function PostPage() {
   const { data = {} } = useQuery(...);
+  const title = `${data.title} — My App`;
   return (
     <>
       <Slot name="head">
         {/* title support only string content */}
-        <title>{`${data.title} — My App`}</title>
+        <title>{title}</title>
         <meta name="description" content={data.body} />
         <meta property="og:title" content={data.title} />
       </Slot>
