@@ -1,37 +1,7 @@
 import React, { Component, useState } from "react";
 
-const parseError = (error, showModules) => {
-  if (error === null) {
-    return "";
-  }
-  if (error instanceof Error) {
-    return {
-      message: error.message,
-      stack:
-        error.stack
-          ?.trim()
-          .split("\n")
-          .filter((line) =>
-            showModules ? true : !line.includes("node_modules")
-          ) || [],
-    };
-  }
-  if (typeof error === "object") {
-    return {
-      ...error,
-      componentStack:
-        error.componentStack
-          ?.trim()
-          .split("\n")
-          .filter((line) =>
-            showModules ? true : !line.includes("node_modules")
-          ) || [],
-    };
-  }
-  return error?.toString();
-};
 
-const ErrorPanel = ({ error, errorInfo }) => {
+export const ErrorFallback = ({ error, errorInfo }) => {
   const [showModules, setShowModules] = useState({
     errorStack: false,
     componentStack: false,
@@ -136,30 +106,3 @@ const ErrorPanel = ({ error, errorInfo }) => {
     </html>
   );
 };
-
-export class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-      errorInfo: null,
-    };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    this.setState({ error, errorInfo });
-  }
-
-  render() {
-    return this.state.hasError ? (
-      <ErrorPanel error={this.state.error} errorInfo={this.state.errorInfo} />
-    ) : (
-      this.props.children
-    );
-  }
-}

@@ -4,7 +4,7 @@ import viteLogo from "../../public/vite.svg";
 import "../assets/root.css";
 
 export const Ledger = () => {
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const [time, setTime] = useState("");
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(new Date().toLocaleTimeString());

@@ -1,5 +1,7 @@
 import { Suspense, useEffect, useState } from "react";
-import { Link, Outlet } from "react-router";
+import { data, Link, Outlet } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { Slot } from "react-slotx";
 import {
   Navbar,
   Nav,
@@ -10,21 +12,30 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+
+const fetchPosts = async () => {
+  const r = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!r.ok) throw new Error("Error fetching posts");
+  return r.json();
+};
+
 const Component = () => {
-  const [posts, setPosts] = useState([]);
-  const onLoad = async () => {
-    try {
-      const r = await fetch("https://jsonplaceholder.typicode.com/posts");
-      const v = await r.json();
-      setPosts(v);
-    } catch (e) {}
-  };
-  useEffect(() => {
-    onLoad();
-  }, []);
+  const {
+    data: posts = [],
+    refetch,
+    isFetching,
+  } = useQuery({
+    queryKey: ["posts"],
+    queryFn: fetchPosts,
+    staleTime: 1000 * 60,
+  });
+  const title = `Posts #${data.length} Records`;
   return (
     <div>
-      <a href="#" onClick={onLoad}>
+      <Slot name="head" priority={2}>
+        <title>{title}</title>
+      </Slot>
+      <a href="#" onClick={refetch}>
         Reload Posts
       </a>
       <Row>
@@ -46,4 +57,8 @@ const Component = () => {
   );
 };
 
-export default ()=><Suspense fallback={<h1>Cargando....</h1>}><Component/></Suspense>;
+export default () => (
+  <Suspense fallback={<h1>Cargando....</h1>}>
+    <Component />
+  </Suspense>
+);

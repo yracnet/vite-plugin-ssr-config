@@ -1,10 +1,14 @@
 import React from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router";
+import { Slot } from "react-slotx";
 
 const About = () => {
   return (
     <Container className="mt-5">
+      <Slot name="head" priority={2}>
+        <title>About Us</title>
+      </Slot>
       <Row>
         <Col>
           <h1>About Us</h1>

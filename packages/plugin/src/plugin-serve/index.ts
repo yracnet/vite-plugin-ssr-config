@@ -14,11 +14,17 @@ export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
     apply: "serve",
     config: ({ base = "/" }) => {
       const ssrClientEntry = finalUrl(base, entryClient);
+      const data = {
+        file: ssrClientEntry,
+        css: [],
+        imports: [],
+        assets: []
+      }
       return {
         appType: "custom",
         define: {
           "process.env.SSR_BASENAME": JSON.stringify(base),
-          "process.env.SSR_ENTRY_CLIENT": JSON.stringify(ssrClientEntry),
+          "process.env.SSR_ENTRY": JSON.stringify(data),
         },
       };
     },

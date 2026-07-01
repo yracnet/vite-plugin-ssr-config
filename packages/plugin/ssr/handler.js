@@ -1,5 +1,5 @@
 import express from "express";
-import { render } from "@ssr/entryRender.jsx";
+import { render } from "./entryRender.jsx";
 
 const ignored = [
   /^\/%3Canonymous%20code%3E$/,

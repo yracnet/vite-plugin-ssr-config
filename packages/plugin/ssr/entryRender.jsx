@@ -4,6 +4,7 @@ import { renderToPipeableStream } from "react-dom/server";
 import { Transform } from "stream";
 import { PageServer } from "./pageServer.jsx";
 import { SlotSSRClient } from "react-slotx/server";
+import { AppShell } from "./appShell.jsx";
 
 const renderDefault = async (request, response, next) => {
   const queryClient = new QueryClient({
@@ -16,12 +17,12 @@ const renderDefault = async (request, response, next) => {
   const slotClient = new SlotSSRClient();
   const { pipe } = renderToPipeableStream(
     <StrictMode>
-      <PageServer
-        basename={process.env.SSR_BASENAME}
-        location={request.originalUrl}
-        queryClient={queryClient}
-        slotClient={slotClient}
-      />
+      <AppShell queryClient={queryClient} slotClient={slotClient}>
+        <PageServer
+          basename={process.env.SSR_BASENAME}
+          location={request.originalUrl}
+        />
+      </AppShell>
     </StrictMode>,
     {
       bootstrapScripts: [],
@@ -34,8 +35,7 @@ const renderDefault = async (request, response, next) => {
         const state = dehydrate(queryClient);
         const headTags = slotClient.renderToString("head");
         const stateScript = `<script>window.__HYDRATED_STATE__ = "${btoa(JSON.stringify(state))}";</script>`;
-        const injectString = ["", headTags, stateScript, ""]
-          .join("\n");
+        const injectString = ["", headTags, stateScript, ""].join("\n");
         const transform = new Transform({
           transform(chunk, encoding, callback) {
             if (!injected) {

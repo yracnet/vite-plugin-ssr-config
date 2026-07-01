@@ -1,5 +1,5 @@
-import { LiveReload } from "@ssr/liveReload.jsx";
-import { ViteScripts } from "@ssr/viteScripts.jsx";
+import { LiveReload } from "./liveReload.jsx";
+import { ViteScripts } from "./viteScripts.jsx";
 import { Outlet as OutletSlot } from "react-slotx";
 import { Outlet as OutletRoutes } from "react-router";
 

@@ -8,6 +8,7 @@ export const finalUrl = (base: string, name: string) => {
 
 export const getPluginDirectory = () => {
   if (typeof __dirname === "undefined") {
+    //@ts-ignore
     const filename = fileURLToPath(import.meta.url);
     return path.dirname(filename);
   } else {
@@ -52,13 +53,14 @@ export const copyFilesDirectory = (
   files.forEach((file) => {
     const sourceFilePath = path.join(origin, file);
     const targetFilePath = path.join(target, file);
+    let fileContent = fs.readFileSync(sourceFilePath, "utf-8");
     if (oldId !== newId) {
-      let fileContent = fs.readFileSync(sourceFilePath, "utf-8");
       fileContent = fileContent.replace(new RegExp(oldId, "g"), newId);
-      fs.writeFileSync(targetFilePath, fileContent, "utf-8");
-    } else {
-      fs.copySync(sourceFilePath, targetFilePath, { overwrite: true });
     }
+    files.forEach(name => {
+      fileContent = fileContent.replace(`./${name}`, `@ssr/${name}`);
+    })
+    fs.writeFileSync(targetFilePath, fileContent, "utf-8");
   });
 };
 

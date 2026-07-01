@@ -13,9 +13,10 @@ export const ssrConfig = (opts: SSROpts = {}): PluginOption => {
   cleanDirectory(cacheTarget);
   copyFilesDirectory(cacheOrigin, cacheTarget, {
     files: [
+      "appShell.jsx",
       "entryClient.jsx",
       "entryRender.jsx",
-      "errorBoundary.jsx",
+      "errorFallback.jsx",
       "handler.js",
       "liveReload.jsx",
       "pageBrowser.jsx",

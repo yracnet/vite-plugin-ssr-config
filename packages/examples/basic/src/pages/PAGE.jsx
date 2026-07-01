@@ -1,10 +1,14 @@
 import React, { Suspense } from "react";
 import { Link } from "react-router";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { Slot } from "react-slotx";
 
 const IndexPage = () => {
   return (
     <Navbar bg="dark" variant="dark">
+      <Slot name="head" priority={2}>
+        <title>Wellcom to My Site</title>
+      </Slot>
       <Navbar.Brand as={Link} to="/">
         Mi Logo
       </Navbar.Brand>

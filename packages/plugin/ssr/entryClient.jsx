@@ -1,8 +1,9 @@
-import { QueryClient, hydrate } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { PageBrowser } from "./pageBrowser.jsx";
 import { SlotClient } from "react-slotx";
+import { AppShell } from "./appShell.jsx";
 
 startTransition(() => {
   const queryClient = new QueryClient({
@@ -14,20 +15,21 @@ startTransition(() => {
   });
   const slotClient = new SlotClient();
   const hydratedState = JSON.parse(atob(window.__HYDRATED_STATE__));
-  hydrate(queryClient, hydratedState);
   hydrateRoot(
     document,
     <StrictMode>
-      <PageBrowser
-        basename={process.env.SSR_BASENAME}
+      <AppShell
         queryClient={queryClient}
+        hydratedState={hydratedState}
         slotClient={slotClient}
-      />
+      >
+        <PageBrowser basename={process.env.SSR_BASENAME} />
+      </AppShell>
     </StrictMode>,
     {
       onRecoverableError: (error, { componentStack }) => {
         const logs = componentStack?.split("\n");
-        console.log("Error:", error, logs);
+        console.log("Hydrate Error:", error, logs);
       },
     },
   );

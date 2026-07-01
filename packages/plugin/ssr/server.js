@@ -1,9 +1,6 @@
-import { handler } from "@ssr/handler.js";
+import { handler } from "./handler.js";
 import { loadEnv } from "dotenv-local";
 import express from "express";
-
-const BASENAME = process.env.SSR_BASENAME || "/";
-const PUBLIC_DIR = process.env.SSR_PUBLIC_DIR || "client";
 
 const { HOST = "127.0.0.1", PORT = "3000" } = loadEnv({
   envPrefix: ["SERVER_"],
@@ -12,10 +9,10 @@ const { HOST = "127.0.0.1", PORT = "3000" } = loadEnv({
 
 // APP
 const app = express();
-if (BASENAME !== "/") {
+if (process.env.SSR_BASENAME !== "/") {
   app.use((req, res, next) => {
     if (req.url === "/") {
-      res.redirect(BASENAME);
+      res.redirect(process.env.SSR_BASENAME);
     } else {
       next();
     }
@@ -24,11 +21,11 @@ if (BASENAME !== "/") {
 
 // SSR
 const route = express.Router();
-route.use(express.static(PUBLIC_DIR));
+route.use(express.static(process.env.SSR_PUBLIC_DIR));
 route.use(handler);
 
 // SITE
-app.use(BASENAME, route);
+app.use(process.env.SSR_BASENAME, route);
 
 app.use((_, res) => {
   res.status(404).send("Not Found");

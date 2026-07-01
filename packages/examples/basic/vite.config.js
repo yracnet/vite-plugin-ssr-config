@@ -7,6 +7,9 @@ import ssr from "../../plugin/src";
 // https://vite.dev/config/
 export default defineConfig({
   //base: "/myapp",
+  server:{
+    port: 3000
+  },
   plugins: [
     react(),
     web({
@@ -14,6 +17,8 @@ export default defineConfig({
     }),
     ssr({
       rootDocument: "src/root.jsx",
+      clientMinify: false,
+      serverMinify: false,
     }),
   ],
 });

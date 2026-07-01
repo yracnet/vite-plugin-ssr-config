@@ -1,4 +1,4 @@
-import { RootDocument } from "@ssr/root.jsx";
+import { RootDocument } from "./root.jsx";
 import React from "react";
 import { useRoutes } from "react-router";
 import routes from "ssr-pages";

@@ -1,8 +1,8 @@
-import fs from "fs-extra";
 import path from "path";
 import { type InlineConfig, type ResolvedConfig, build, mergeConfig } from "vite";
 import type { SSRConfig } from "../model";
-import { finalUrl, readManifest } from "../utils";
+import { readManifest } from "../utils";
+import { parseManifest } from "./parse";
 
 export const doBuildServer = async (
   ssrConfig: SSRConfig,
@@ -31,8 +31,7 @@ export const doBuildServer = async (
   const ssrServerFile = path.resolve(root, server);
   const ssrPublicDir = path.relative(serverOutDir, clientOutDir);
   const manifest = readManifest(clientOutDir);
-  const manifestOut = manifest[entryClient].file;
-  const ssrEntryClientURL = finalUrl(base, manifestOut);
+  const ssrEntry = parseManifest(manifest, entryClient, base);
 
   const ssrFiles = [
     handler,
@@ -54,7 +53,7 @@ export const doBuildServer = async (
     define: {
       "process.env.SSR_BASENAME": JSON.stringify(base),
       "process.env.SSR_PUBLIC_DIR": JSON.stringify(ssrPublicDir),
-      "process.env.SSR_ENTRY_CLIENT": JSON.stringify(ssrEntryClientURL),
+      "process.env.SSR_ENTRY": JSON.stringify(ssrEntry),
       "process.env.SSR": JSON.stringify(true),
     },
     ssr: {

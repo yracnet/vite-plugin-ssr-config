@@ -11,10 +11,11 @@ export type SSRConfig = {
   handler: string;
 
   rootDocument: string;
+  appShell: string;
   pageServer: string;
   pageBrowser: string;
   rootRoutes: string;
-  errorBoundary: string;
+  errorFallback: string;
   liveReload: string;
   viteScripts: string;
 
@@ -44,10 +45,11 @@ export const assertSSRConfig = (ssrOpts: SSROpts = {}): SSRConfig => {
     server = ".ssr/server.js",
     handler = ".ssr/handler.js",
     //SSR
+    appShell = ".ssr/appShell.jsx",
     pageServer = ".ssr/pageServer.jsx",
     pageBrowser = ".ssr/pageBrowser.jsx",
     rootRoutes = ".ssr/rootRoutes.jsx",
-    errorBoundary = ".ssr/errorBoundary.jsx",
+    errorFallback = ".ssr/errorFallback.jsx",
     //Scripts
     liveReload = ".ssr/liveReload.jsx",
     viteScripts = ".ssr/viteScripts.jsx",
@@ -70,11 +72,12 @@ export const assertSSRConfig = (ssrOpts: SSROpts = {}): SSRConfig => {
 
     server,
     handler,
-
+    
+    appShell,
     pageServer,
     pageBrowser,
     rootRoutes,
-    errorBoundary,
+    errorFallback,
 
     liveReload,
     viteScripts,
