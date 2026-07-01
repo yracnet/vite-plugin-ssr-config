@@ -1,4 +1,3 @@
-import { ErrorBoundary } from "./errorBoundary.jsx";
 import { RootRoutes } from "./rootRoutes.jsx";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Suspense } from "react";

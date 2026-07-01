@@ -15,7 +15,7 @@ export default defineConfig([
   //   entry: [
   //     "src/ssr/entryClient.jsx",
   //     "src/ssr/entryRender.jsx",
-  //     "src/ssr/errorBoundary.jsx",
+  //     "src/ssr/errorFallback.jsx",
   //     "src/ssr/handler.js",
   //     "src/ssr/liveReload.jsx",
   //     "src/ssr/pageBrowser.jsx",

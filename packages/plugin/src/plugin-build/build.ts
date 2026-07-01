@@ -22,7 +22,7 @@ export const doBuildServer = async (
     pageServer,
     pageBrowser,
     rootRoutes,
-    errorBoundary,
+    errorFallback,
     liveReload,
     viteScripts,
   } = ssrConfig;
@@ -41,7 +41,7 @@ export const doBuildServer = async (
     pageServer,
     pageBrowser,
     rootRoutes,
-    errorBoundary,
+    errorFallback,
     liveReload,
     viteScripts,
   ];

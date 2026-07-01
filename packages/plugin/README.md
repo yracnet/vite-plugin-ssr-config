@@ -102,7 +102,7 @@ The following default values are provided for each configurable attribute in the
       pageServer: ".ssr/pageServer.jsx", // Server-side page rendering.
       pageBrowser: ".ssr/pageBrowser.jsx", // Browser-side page rendering.
       rootRoutes: ".ssr/rootRoutes.jsx", // Root routes for SSR.
-      errorBoundary: ".ssr/errorBoundary.jsx", // Error boundary for SSR rendering.
+      errorFallback: ".ssr/errorFallback.jsx", // Error Fallback for SSR rendering.
 
       // Scripts
       liveReload: ".ssr/liveReload.jsx", // Script for live reloading.
@@ -177,9 +177,9 @@ The browser-side page rendering file. Defaults to `.ssr/pageBrowser.jsx`.
 
 The root routes for SSR. Defaults to `.ssr/rootRoutes.jsx`.
 
-### `errorBoundary` (string)
+### `errorFallback` (string)
 
-The error boundary for SSR rendering. Defaults to `.ssr/errorBoundary.jsx`.
+The error fallback for SSR rendering. Defaults to `.ssr/errorFallback.jsx`.
 
 ### `liveReload` (string)
 
