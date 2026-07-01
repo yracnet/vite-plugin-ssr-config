@@ -34,7 +34,8 @@ const renderDefault = async (request, response, next) => {
         let injected = false;
         const state = dehydrate(queryClient);
         const headTags = slotClient.renderToString("head");
-        const stateScript = `<script id="hydrated-state" type="text/plain">${btoa(JSON.stringify(state))}</script>`;
+        const hydratedState = btoa(encodeURIComponent(JSON.stringify(state)));
+        const stateScript = `<script id="hydrated-state" type="text/plain">${hydratedState}</script>`;
         const injectString = ["", headTags, stateScript, ""].join("\n");
         const transform = new Transform({
           transform(chunk, encoding, callback) {

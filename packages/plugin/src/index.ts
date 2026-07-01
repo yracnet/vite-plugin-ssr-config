@@ -1,4 +1,3 @@
-import path from "path";
 import type { PluginOption } from "vite";
 import { assertSSRConfig, type SSROpts } from "./model.js";
 import { pluginBuild } from "./plugin-build/index.js";
