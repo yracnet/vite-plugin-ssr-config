@@ -15,9 +15,7 @@ export const RootDocument = () => {
           rel="stylesheet"
         />
         <LiveReload />
-        <OutletSlot name="head">
-          <title>SSR Example</title>
-        </OutletSlot>
+        <OutletSlot name="head"/>
       </head>
       <body>
         <Outlet />

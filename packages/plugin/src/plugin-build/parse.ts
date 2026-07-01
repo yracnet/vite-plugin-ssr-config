@@ -12,7 +12,7 @@ type Manifest = Record<string, ManifestChunk>;
 
 type EntrySummary = {
     file: string;
-    css: string[];
+    stylesheet: string[];
     imports: string[];
     assets: string[];
 };
@@ -27,7 +27,7 @@ export const parseManifest = (
 
     const summary: EntrySummary = {
         file: "",
-        css: [],
+        stylesheet: [],
         imports: [],
         assets: [],
     };
@@ -51,7 +51,7 @@ export const parseManifest = (
             summary.file = withBase(chunk.file);
         }
 
-        chunk.css?.forEach(css => addUnique(summary.css, withBase(css)));
+        chunk.css?.forEach(css => addUnique(summary.stylesheet, withBase(css)));
         chunk.assets?.forEach(asset => addUnique(summary.assets, withBase(asset)));
 
         chunk.imports?.forEach(dep => {

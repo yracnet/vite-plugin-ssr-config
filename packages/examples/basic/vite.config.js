@@ -1,14 +1,17 @@
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
 import web from "vite-plugin-web-routes";
-import ssr from "vite-plugin-ssr-config";
-//import ssr from "../../plugin/src";
+//import ssr from "vite-plugin-ssr-config";
+import ssr from "../../plugin/src";
 
 // https://vite.dev/config/
 export default defineConfig({
   //base: "/myapp",
-  server:{
-    port: 3000
+  server: {
+    port: 3000,
+    allowedHosts: [
+      "ba46-166-114-134-183.ngrok-free.app"
+    ]
   },
   plugins: [
     react(),
@@ -18,8 +21,8 @@ export default defineConfig({
     ssr({
       cacheDir: "cache-ssr",
       rootDocument: "src/root.jsx",
-      clientMinify: false,
-      serverMinify: false,
+      clientMinify: "esbuild",
+      serverMinify: "esbuild",
     }),
   ],
 });

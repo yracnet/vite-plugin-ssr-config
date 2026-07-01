@@ -16,7 +16,7 @@ export const pluginServe = (ssrConfig: SSRConfig): PluginOption => {
       const ssrClientEntry = finalUrl(base, entryClient);
       const data = {
         file: ssrClientEntry,
-        css: [],
+        stylesheet: [],
         imports: [],
         assets: []
       }
