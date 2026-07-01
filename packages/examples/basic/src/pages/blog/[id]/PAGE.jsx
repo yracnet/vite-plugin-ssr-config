@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 
 const fetchPost = async (id) => {
   const r = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-  console.log(">>>", r);
   if (!r.ok) {
     throw new Error(`Error fetching post: ${id}`);
   }

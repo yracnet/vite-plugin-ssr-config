@@ -1,9 +1,11 @@
 import type { UserConfig } from "vite";
+import path from "path";
 
 export type SSRConfig = {
   root: string;
-  version: "1.0" | "1.1";
+  cacheDir: string;
 
+  entryClientKey: string;
   entryClient: string;
   entryRender: string;
 
@@ -30,57 +32,66 @@ export type SSRConfig = {
   disableBuild: boolean;
 };
 
-export type SSROpts = Partial<SSRConfig>;
+export type SSROpts = Omit<Partial<SSRConfig>, "entryClientKey">;
 
 export const assertSSRConfig = (ssrOpts: SSROpts = {}): SSRConfig => {
-  let {
-    root = process.cwd(),
-    version = "1.1",
+  const {
     disableBuild = false,
-    //Main Entry
-    entryClient = ".ssr/entryClient.jsx",
-    entryRender = ".ssr/entryRender.jsx",
-    rootDocument = ".ssr/root.jsx",
-    //Server
-    server = ".ssr/server.js",
-    handler = ".ssr/handler.js",
-    //SSR
-    appShell = ".ssr/appShell.jsx",
-    pageServer = ".ssr/pageServer.jsx",
-    pageBrowser = ".ssr/pageBrowser.jsx",
-    rootRoutes = ".ssr/rootRoutes.jsx",
-    errorFallback = ".ssr/errorFallback.jsx",
-    //Scripts
-    liveReload = ".ssr/liveReload.jsx",
-    viteScripts = ".ssr/viteScripts.jsx",
-    //Out directories
+    // Dirs
+    root = process.cwd(),
+    cacheDir = ".ssr",
+    // Server Config
     serverOutDir = "dist/",
     serverMinify = false,
     serverBuild = (config) => config,
+    // Client Config
     clientOutDir = "dist/public",
     clientMinify = true,
     clientBuild = (config) => config,
   } = ssrOpts;
+
+  const resolve = (value: string | undefined, fallback: string) => {
+    if (!value) {
+      return path.resolve(cacheDir, fallback);
+    }
+    if (path.isAbsolute(value)) {
+      return value;
+    }
+    return path.resolve(root, value);
+  };
+
+  const resolveKey = (value: string | undefined, fallback: string) => {
+    if (!value) {
+      return path.join(cacheDir, fallback).replace(/\\/g, "/");
+    }
+    if (path.isAbsolute(value)) {
+      return path.relative(root, value).replace(/\\/g, "/");
+    }
+    return value.replace(/\\/g, "/");
+  }
+
   return {
     root,
-    version,
+    cacheDir,
+
     disableBuild,
 
-    entryClient,
-    entryRender,
-    rootDocument,
+    entryClientKey: resolveKey(ssrOpts.entryClient, "entryClient.jsx"),
+    entryClient: resolve(ssrOpts.entryClient, "entryClient.jsx"),
+    entryRender: resolve(ssrOpts.entryRender, "entryRender.jsx"),
+    rootDocument: resolve(ssrOpts.rootDocument, "root.jsx"),
 
-    server,
-    handler,
-    
-    appShell,
-    pageServer,
-    pageBrowser,
-    rootRoutes,
-    errorFallback,
+    server: resolve(ssrOpts.server, "server.js"),
+    handler: resolve(ssrOpts.handler, "handler.js"),
 
-    liveReload,
-    viteScripts,
+    appShell: resolve(ssrOpts.appShell, "appShell.jsx"),
+    pageServer: resolve(ssrOpts.pageServer, "pageServer.jsx"),
+    pageBrowser: resolve(ssrOpts.pageBrowser, "pageBrowser.jsx"),
+    rootRoutes: resolve(ssrOpts.rootRoutes, "rootRoutes.jsx"),
+    errorFallback: resolve(ssrOpts.errorFallback, "errorFallback.jsx"),
+
+    liveReload: resolve(ssrOpts.liveReload, "liveReload.jsx"),
+    viteScripts: resolve(ssrOpts.viteScripts, "viteScripts.jsx"),
 
     serverOutDir,
     serverMinify,

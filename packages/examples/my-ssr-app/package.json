@@ -28,7 +28,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
     "vite": "^8.0.12",
-    "vite-plugin-ssr-config": "*",
+    "vite-plugin-ssr-config": "1.1.0-beta2",
     "vite-plugin-web-routes": "^0.1.3"
   }
 }

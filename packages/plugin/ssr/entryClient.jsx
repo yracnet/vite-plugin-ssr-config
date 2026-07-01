@@ -14,7 +14,8 @@ startTransition(() => {
     },
   });
   const slotClient = new SlotClient();
-  const hydratedState = JSON.parse(atob(window.__HYDRATED_STATE__));
+  const encoded = document.getElementById("hydrated-state").textContent;
+  const hydratedState = JSON.parse(atob(encoded));
   hydrateRoot(
     document,
     <StrictMode>

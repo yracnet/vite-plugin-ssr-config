@@ -1,8 +1,8 @@
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
 import web from "vite-plugin-web-routes";
-//import ssr from "vite-plugin-ssr-config";
-import ssr from "../../plugin/src";
+import ssr from "vite-plugin-ssr-config";
+//import ssr from "../../plugin/src";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,6 +16,7 @@ export default defineConfig({
       moduleId: "ssr-pages",
     }),
     ssr({
+      cacheDir: "cache-ssr",
       rootDocument: "src/root.jsx",
       clientMinify: false,
       serverMinify: false,

@@ -9,9 +9,9 @@ import { cleanDirectory, copyFilesDirectory, findDirPlugin } from "./utils.js";
 export const ssrConfig = (opts: SSROpts = {}): PluginOption => {
   const ssrConfig = assertSSRConfig(opts);
   const cacheOrigin = findDirPlugin("ssr");
-  const cacheTarget = path.join(ssrConfig.root, ".ssr");
-  cleanDirectory(cacheTarget);
-  copyFilesDirectory(cacheOrigin, cacheTarget, {
+  
+  cleanDirectory(ssrConfig.cacheDir);
+  copyFilesDirectory(cacheOrigin, ssrConfig.cacheDir, {
     files: [
       "appShell.jsx",
       "entryClient.jsx",

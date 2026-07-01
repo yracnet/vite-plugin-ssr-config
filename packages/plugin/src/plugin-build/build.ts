@@ -12,6 +12,7 @@ export const doBuildServer = async (
     root,
     serverMinify,
     serverOutDir,
+    entryClientKey,
     entryClient,
     clientOutDir,
     server,
@@ -31,7 +32,7 @@ export const doBuildServer = async (
   const ssrServerFile = path.resolve(root, server);
   const ssrPublicDir = path.relative(serverOutDir, clientOutDir);
   const manifest = readManifest(clientOutDir);
-  const ssrEntry = parseManifest(manifest, entryClient, base);
+  const ssrEntry = parseManifest(manifest, entryClientKey, base);
 
   const ssrFiles = [
     handler,
