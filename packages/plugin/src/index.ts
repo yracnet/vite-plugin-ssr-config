@@ -5,10 +5,9 @@ import { pluginResolve } from "./plugin-resolve/index.js";
 import { pluginServe } from "./plugin-serve/index.js";
 import { cleanDirectory, copyFilesDirectory, findDirPlugin } from "./utils.js";
 
-export const ssrConfig = (opts: SSROpts = {}): PluginOption => {
+export const ssrPlugin = (opts: SSROpts = {}): PluginOption => {
   const ssrConfig = assertSSRConfig(opts);
   const cacheOrigin = findDirPlugin("ssr");
-  
   cleanDirectory(ssrConfig.cacheDir);
   copyFilesDirectory(cacheOrigin, ssrConfig.cacheDir, {
     files: [
@@ -33,6 +32,39 @@ export const ssrConfig = (opts: SSROpts = {}): PluginOption => {
   ];
 };
 
-export const ssr = ssrConfig;
+export const ssr = ssrPlugin;
 
-export default ssrConfig;
+export const ssrResolve = (opts: SSROpts = {}) => {
+  const ssrConfig = assertSSRConfig(opts);
+  const cacheOrigin = findDirPlugin("ssr");
+  cleanDirectory(ssrConfig.cacheDir);
+  copyFilesDirectory(cacheOrigin, ssrConfig.cacheDir, {
+    files: [
+      "appShell.jsx",
+      "entryClient.jsx",
+      "entryRender.jsx",
+      "errorFallback.jsx",
+      "handler.js",
+      "liveReload.jsx",
+      "pageBrowser.jsx",
+      "pageServer.jsx",
+      "root.jsx",
+      "rootRoutes.jsx",
+      "server.js",
+      "viteScripts.jsx",
+    ],
+  });
+  return pluginResolve(ssrConfig);
+};
+
+export const ssrServe = (opts: SSROpts = {}) => {
+  const ssrConfig = assertSSRConfig(opts);
+  return pluginServe(ssrConfig);
+};
+
+export const ssrBuild = (opts: SSROpts = {}) => {
+  const ssrConfig = assertSSRConfig(opts);
+  return pluginBuild(ssrConfig);
+};
+
+export default ssrPlugin;
