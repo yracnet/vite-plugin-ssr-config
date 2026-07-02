@@ -13,19 +13,10 @@ export const doBuildServer = async (
     serverMinify,
     serverOutDir,
     entryClientKey,
-    entryClient,
     clientOutDir,
     server,
-    handler,
     serverBuild,
-    rootDocument,
-    entryRender,
-    pageServer,
-    pageBrowser,
-    rootRoutes,
-    errorFallback,
-    liveReload,
-    viteScripts,
+    serverCodeSplitting,
   } = ssrConfig;
   const { base = "/" } = viteConfig;
 
@@ -33,19 +24,7 @@ export const doBuildServer = async (
   const ssrPublicDir = path.relative(serverOutDir, clientOutDir);
   const manifest = readManifest(clientOutDir);
   const ssrEntry = parseManifest(manifest, entryClientKey, base);
-
-  const ssrFiles = [
-    handler,
-    rootDocument,
-    entryClient,
-    entryRender,
-    pageServer,
-    pageBrowser,
-    rootRoutes,
-    errorFallback,
-    liveReload,
-    viteScripts,
-  ];
+  const codeSplitting = serverCodeSplitting(ssrConfig);
   const baseConfig: InlineConfig = {
     appType: "custom",
     base,
@@ -67,24 +46,14 @@ export const doBuildServer = async (
       minify: serverMinify,
       target: "esnext",
       emptyOutDir: false,
-      rollupOptions: {
-        external: viteConfig.build?.rollupOptions?.external,
+      rolldownOptions: {
+        external: viteConfig.build?.rolldownOptions?.external,
         output: {
           format: "es",
           entryFileNames: "app.js",
           chunkFileNames: "bin/[name]-[hash].js",
           assetFileNames: "assets/[name]-[hash].[ext]",
-          manualChunks: (id) => {
-            const isSsr = ssrFiles.find(
-              (it) => id.startsWith(it) || id.endsWith(it)
-            );
-            if (isSsr) {
-              return "ssr";
-            }
-            if (id.startsWith("virtual")) {
-              return "virtual";
-            }
-          },
+          codeSplitting,
         },
         onwarn: (warning: any, handler: any) => {
           if (
@@ -108,14 +77,9 @@ export const doBuildClient = async (
   viteConfig: ResolvedConfig
 ) => {
   const { base = "/" } = viteConfig;
-  const { root, clientMinify, clientOutDir, entryClient, clientBuild } =
+  const { root, clientMinify, clientOutDir, entryClient, clientBuild, clientCodeSplitting } =
     ssrConfig;
-  const preloadFiles = [
-    "modulepreload",
-    "commonjsHelpers",
-    "vite/",
-    "installHook",
-  ];
+  const codeSplitting = clientCodeSplitting(ssrConfig);
   const baseConfig: InlineConfig = {
     root,
     appType: "custom",
@@ -130,8 +94,8 @@ export const doBuildClient = async (
       minify: clientMinify,
       emptyOutDir: false,
       outDir: clientOutDir,
-      rollupOptions: {
-        external: viteConfig.build?.rollupOptions?.external,
+      rolldownOptions: {
+        external: viteConfig.build?.rolldownOptions?.external,
         input: {
           main: path.resolve(root, entryClient),
         },
@@ -140,15 +104,7 @@ export const doBuildClient = async (
           entryFileNames: `assets/[name]-[hash].js`,
           chunkFileNames: `chunks/[name]-[hash].js`,
           assetFileNames: `assets/[name]-[hash].[ext]`,
-          manualChunks: (id) => {
-            const isInternal = preloadFiles.find((it) => id.includes(it));
-            if (isInternal) {
-              return "preload";
-            }
-            if (id.includes("node_modules")) {
-              return "vendor";
-            }
-          },
+          codeSplitting,
         },
       },
     },
