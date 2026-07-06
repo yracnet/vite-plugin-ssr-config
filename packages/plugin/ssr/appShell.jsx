@@ -10,7 +10,7 @@ export const AppShell = ({
   slotClient,
 }) => {
   return (
-    <ErrorBoundary fallbackRender={ErrorFallback}>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={hydratedState}>
           <SlotProvider client={slotClient}>{children}</SlotProvider>
